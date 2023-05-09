@@ -3,9 +3,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import {
-  loginFailure,
-  loginStart,
-  loginSuccess,
   register,
   registerFailure,
   registerSuccess,
@@ -74,7 +71,7 @@ const Link = styled.span`
   margin-left: 30px;
 `;
 
-const Login = () => {
+const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -83,18 +80,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    dispatch(loginStart());
-    try {
-      const res = await axios.post("/auth/signin", { name, password });
-      dispatch(loginSuccess(res.data));
-      navigate("/");
-    } catch (err) {
-      dispatch(loginFailure());
-      setErrorMessage1("Invalid user information");
-    }
-  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -112,20 +97,12 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>Sign in</Title>
-        <SubTitle>to continue to Dashboard</SubTitle>
-        <Input
-          placeholder="username"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin}>Sign in</Button>
-        {errorMessage1 && <div>{errorMessage1}</div>}{" "}
-        {/* burada hata mesajı varsa div içinde gösteriyoruz */}
+      <Title>Sign Up</Title>
+        <Input placeholder="username"  onChange={e=>setName(e.target.value)}/>
+        <Input placeholder="email"  onChange={e=>setEmail(e.target.value)}/>
+        <Input type="password" placeholder="password"  onChange={e=>setPassword(e.target.value)} />
+        <Button onClick={handleRegister}>Sign up</Button>
+        {errorMessage2 && <div>{errorMessage2}</div>} {/* burada hata mesajı varsa div içinde gösteriyoruz */}
       </Wrapper>
       <More>
         English(USA)
@@ -139,4 +116,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
