@@ -8,9 +8,20 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { logout } from "../../redux/userSlice.js";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const dispatchL = useDispatch();
+
+  const handleLogout = async (e) => {
+    window.location.href = "/";
+    e.preventDefault();
+    dispatchL(logout());
+    const res = await axios.post("/auth/logout");
+  };
 
   return (
     <div className="navbar">
@@ -51,6 +62,7 @@ const Navbar = () => {
               className="avatar"
             />
           </div>
+          <button className="logout-button" onClick={handleLogout}>Çıkış yap</button>
         </div>
       </div>
     </div>
