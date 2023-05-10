@@ -1,77 +1,92 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
 import {
   loginFailure,
   loginStart,
   loginSuccess,
-  register,
-  registerFailure,
-  registerSuccess,
 } from "../../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
+import styled, { keyframes } from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: calc(100vh - 56px);
-  color: ${({ theme }) => theme.text};
-`;
-
-const Wrapper = styled.div`
-  display: flex;
   align-items: center;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.bgLighter};
-  border: 1px solid ${({ theme }) => theme.soft};
-  padding: 20px 50px;
-  gap: 10px;
+  height: 100vh;
+  background: linear-gradient(to bottom, #667eea, #764ba2);
 `;
+const slideIn = keyframes`
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+const Wrapper = styled.div`
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+  width: 350px;
+  animation: ${slideIn} 0.5s ease;
+`;
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin: 1rem 0;
 `;
-
-const SubTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 300;
+const SubTitle = styled.h1`
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+  margin: 1rem 0;
+`;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem 2rem 2rem;
 `;
 
 const Input = styled.input`
-  border: 1px solid ${({ theme }) => theme.soft};
-  border-radius: 3px;
-  padding: 10px;
-  background-color: transparent;
-  width: 100%;
-  color: ${({ theme }) => theme.text};
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #333;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const Button = styled.button`
-  border-radius: 3px;
+  background-color: #667eea;
+  color: #fff;
   border: none;
-  padding: 10px 20px;
-  font-weight: 500;
+  border-radius: 5px;
+  padding: 1rem;
+  font-size: 1rem;
   cursor: pointer;
-  background-color: ${({ theme }) => theme.soft};
-  color: ${({ theme }) => theme.textSoft};
+
+  &:hover {
+    background-color: #764ba2;
+  }
 `;
 
-const More = styled.div`
-  display: flex;
-  margin-top: 10px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.textSoft};
-`;
-
-const Links = styled.div`
-  margin-left: 50px;
-`;
-
-const Link = styled.span`
-  margin-left: 30px;
+const Error = styled.p`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  text-align: center;
 `;
 
 const Login = () => {
@@ -96,45 +111,34 @@ const Login = () => {
     }
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    dispatch(register());
-    try {
-      const res = await axios.post("/auth/signup", { name, email, password });
-      dispatch(registerSuccess(res.data));
-      navigate("/");
-    } catch (err) {
-      dispatch(registerFailure());
-      setErrorMessage2("Invalid user registration");
-    }
-  };
-
   return (
     <Container>
       <Wrapper>
-        <Title>Sign in</Title>
-        <SubTitle>to continue to Dashboard</SubTitle>
+        <Form>
+
+        <Title>Giriş yap</Title>
         <Input
-          placeholder="username"
+          placeholder="Kullanıcı adı"
           onChange={(e) => setName(e.target.value)}
         />
         <Input
           type="password"
-          placeholder="password"
+          placeholder="Şifre"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={handleLogin}>Sign in</Button>
+        <Button onClick={handleLogin}>Giriş yap</Button>
         {errorMessage1 && <div>{errorMessage1}</div>}{" "}
         {/* burada hata mesajı varsa div içinde gösteriyoruz */}
+        <SubTitle>Kayıt olmak için buradan devam et</SubTitle>
+        <Button
+          onClick={() =>
+            navigate("/signup")
+          }
+        >
+          Kayıt ol
+        </Button>{" "}
+        </Form>
       </Wrapper>
-      <More>
-        English(USA)
-        <Links>
-          <Link>Help</Link>
-          <Link>Privacy</Link>
-          <Link>Terms</Link>
-        </Links>
-      </More>
     </Container>
   );
 };
