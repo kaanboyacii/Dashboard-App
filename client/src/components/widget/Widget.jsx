@@ -1,24 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { useSelector } from "react-redux";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount, diff }) => {
   let data;
-  //temporary
-  const amount = 100;
-  const diff = 20;
+
   switch (type) {
     case "user":
       data = {
-        title: "USERS",
+        title: "PROJELER",
         isMoney: false,
-        link: "See all users",
+        link: "Tüm projeleri gör",
         icon: (
-          <PersonOutlinedIcon
+          <AccountTreeIcon
             className="icon"
             style={{
               color: "crimson",
@@ -30,9 +32,9 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "ORDERS",
+        title: "SİPARİŞLER",
         isMoney: false,
-        link: "View all orders",
+        link: "Tüm siparişleri gör",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -46,9 +48,9 @@ const Widget = ({ type }) => {
       break;
     case "earning":
       data = {
-        title: "EARNINGS",
+        title: "GENEL KAR",
         isMoney: true,
-        link: "View net earnings",
+        link: "Detayları gör",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -59,9 +61,9 @@ const Widget = ({ type }) => {
       break;
     case "balance":
       data = {
-        title: "BALANCE",
+        title: "GENEL BAKİYE",
         isMoney: true,
-        link: "See details",
+        link: "Detayları gör",
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -82,14 +84,20 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {amount} {data.isMoney && "₺"}
         </span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
-        <div className="percentage positive">
-          <KeyboardArrowUpIcon />
-          {diff} %
+        <div
+          className={`percentage ${
+            diff > 0 ? "positive" : diff < 0 ? "negative" : "rule"
+          }`}
+        >
+          {diff > 0 && <KeyboardArrowUpIcon />}
+          {diff < 0 && <KeyboardArrowDownIcon />}
+          {diff === 0 && <HorizontalRuleIcon />}
+          {Math.abs(diff)} %
         </div>
         {data.icon}
       </div>
