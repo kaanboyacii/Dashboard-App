@@ -7,7 +7,7 @@ import {
   loginSuccess,
 } from "../../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -94,7 +94,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage1, setErrorMessage1] = useState("");
-  const [errorMessage2, setErrorMessage2] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -107,7 +106,7 @@ const Login = () => {
       navigate("/");
     } catch (err) {
       dispatch(loginFailure());
-      setErrorMessage1("Invalid user information");
+      setErrorMessage1("Geçersiz giriş bilgileri !");
     }
   };
 
@@ -115,28 +114,22 @@ const Login = () => {
     <Container>
       <Wrapper>
         <Form>
-
-        <Title>Giriş yap</Title>
-        <Input
-          placeholder="Kullanıcı adı"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Şifre"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin}>Giriş yap</Button>
-        {errorMessage1 && <div>{errorMessage1}</div>}{" "}
-        {/* burada hata mesajı varsa div içinde gösteriyoruz */}
-        <SubTitle>Kayıt olmak için buradan devam et</SubTitle>
-        <Button
-          onClick={() =>
-            navigate("/signup")
-          }
-        >
-          Kayıt ol
-        </Button>{" "}
+          <Title>Giriş yap</Title>
+          <Input
+            placeholder="Kullanıcı adı"
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Şifre"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleLogin}>Giriş yap</Button>
+          <Error>
+            {errorMessage1 && <div>{errorMessage1}</div>}
+          </Error>
+          <SubTitle>Kayıt olmak için buradan devam et</SubTitle>
+          <Button onClick={() => navigate("/signup")}>Kayıt ol</Button>{" "}
         </Form>
       </Wrapper>
     </Container>

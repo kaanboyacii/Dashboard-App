@@ -92,7 +92,6 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage1, setErrorMessage1] = useState("");
   const [errorMessage2, setErrorMessage2] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,7 +105,7 @@ const Signup = () => {
       navigate("/");
     } catch (err) {
       dispatch(registerFailure());
-      setErrorMessage2("Invalid user registration");
+      setErrorMessage2("Geçersiz kullanıcı bilgileri !");
     }
   };
 
@@ -129,8 +128,9 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button onClick={handleRegister}>Kayıt ol</Button>
-          {errorMessage2 && <div>{errorMessage2}</div>}{" "}
-          {/* burada hata mesajı varsa div içinde gösteriyoruz */}
+          <Error>
+            {errorMessage2 && <div>{errorMessage2}</div>}
+          </Error>
           <SubTitle>Zaten hesabın var mı ?</SubTitle>
           <Button onClick={() => navigate("/login")}>Giriş yap</Button>{" "}
         </Form>
