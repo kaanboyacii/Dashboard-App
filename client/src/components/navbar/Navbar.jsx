@@ -9,12 +9,13 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { logout } from "../../redux/userSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const dispatchL = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleLogout = async (e) => {
     window.location.href = "/";
@@ -27,14 +28,10 @@ const Navbar = () => {
     <div className="navbar">
       <div className="wrapper">
         <div className="search">
-          <input type="text" placeholder="Search..." />
+          <input type="text" placeholder="Ara..." />
           <SearchOutlinedIcon />
         </div>
         <div className="items">
-          <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            English
-          </div>
           <div className="item">
             <DarkModeOutlinedIcon
               className="icon"
@@ -57,7 +54,7 @@ const Navbar = () => {
           </div>
           <div className="item">
             <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={currentUser.img}
               alt=""
               className="avatar"
             />
