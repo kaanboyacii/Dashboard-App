@@ -33,6 +33,9 @@ const ProjectSchema = new mongoose.Schema({
                 amount: {
                     type: Number
                 },
+                date: {
+                    type: Date
+                },
             },
         ],
         default: [],
@@ -45,6 +48,9 @@ const ProjectSchema = new mongoose.Schema({
                 },
                 amount: {
                     type: Number
+                },
+                date: {
+                    type: Date
                 },
             },
         ],
