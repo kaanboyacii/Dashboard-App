@@ -3,8 +3,44 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { dislike, fetchSuccess, like } from "../../redux/projectSlice.js";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Single = () => {
+  const { currentProject } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  const path = useLocation().pathname.split("/")[2];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/projects/find/${path}`);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {
+        console.log("User AUTH Error");
+      }
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  let totalCosts = 0;
+  currentProject.costs.forEach((cost) => {
+    totalCosts += cost.amount;
+  });
+  let totalPayments = 0;
+  currentProject.payments.forEach((payment) => {
+    totalPayments += payment.amount;
+  });
+
+  let earning = totalPayments - totalCosts;
+
+  let balance = totalPayments - totalCosts;
+  let absoluteBalance = Math.abs(balance);
+
   return (
     <div className="single">
       <Sidebar />
@@ -12,33 +48,38 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
-            <h1 className="title">Information</h1>
+            <div className="editButton">Düzenle</div>
+            <h1 className="title">Bilgiler</h1>
             <div className="item">
-              <img
-                src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                alt=""
-                className="itemImg"
-              />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{currentProject.title}</h1>
                 <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
+                  <span className="itemKey">Açıklama:</span>
+                  <span className="itemValue">{currentProject.desc}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
+                  <span className="itemKey">Durum:</span>
+                  <span className="itemValue">{currentProject.status}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Address:</span>
-                  <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
-                  </span>
+                  <span className="itemKey">İletişim:</span>
+                  <span className="itemValue">{currentProject.contact}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
+                  <span className="itemKey">Bakiye:</span>
+                  <span className="itemValue">{absoluteBalance.toLocaleString()} ₺</span>
+                </div>
+                <div className="detailItem">
+                  <span className="itemKey">Kar / Zarar:</span>
+                  <span className="itemValue">{earning.toLocaleString()} ₺</span>
+                </div>
+                <div className="detailItem">
+                  <span className="itemKey">Toplam Alınan Ödeme:</span>
+                  <span className="itemValue">{totalPayments.toLocaleString()} ₺</span>
+                </div>
+                <div className="detailItem">
+                  <span className="itemKey">Toplam Maliyet:</span>
+                  <span className="itemValue">{totalCosts.toLocaleString()} ₺</span>
                 </div>
               </div>
             </div>
