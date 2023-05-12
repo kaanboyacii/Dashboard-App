@@ -17,6 +17,9 @@ const ProjectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    contact: {
+        type: String
+    },
     balance: {
         type: Number,
         default: 0,
