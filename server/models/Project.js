@@ -14,7 +14,8 @@ const ProjectSchema = new mongoose.Schema({
         required: true,
     },
     desc: {
-        type: String
+        type: String,
+        required: true,
     },
     balance: {
         type: Number,

@@ -30,7 +30,7 @@ function App() {
                 <Route path=":id" element={<Single />} />
                 <Route
                   path="new"
-                  element={<New inputs={userInputs} title="Add New User" />}
+                  element={<New />}
                 />
               </Route>
               <Route path="products">

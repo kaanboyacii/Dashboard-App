@@ -25,13 +25,11 @@
     .right {
       flex: 2;
       margin-left: 40px;
-
       form {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         justify-content: space-between;
-
         .formInput {
           width: 45%;
 
@@ -64,7 +62,11 @@
           }
         }
       }
-
+      .errorMessage {
+        color: #f20000;
+        text-align: center;
+        margin-top: 10px;
+      }
       button {
         width: 100%;
         padding: 10px;
