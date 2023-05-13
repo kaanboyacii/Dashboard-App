@@ -93,6 +93,12 @@ const Single = () => {
                 </div>
               </div>
             </div>
+            <div className="datatableTitle">
+              <div className="buttonContainer">
+                <button className="paymentButton">Yeni ödeme ekle</button>
+                <button className="costButton">Yeni maliyet ekle</button>
+              </div>
+            </div>
           </div>
           <div className="right">
             <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
@@ -102,11 +108,12 @@ const Single = () => {
         </div>
         <div className="bottom">
           <div className="left">
-        
-            <Datatable/>
+            <h1 className="title">Ödemeler</h1>
+            <Datatable type="payments" />
           </div>
           <div className="right">
-            <Featured />
+            <h1 className="title">Maliyetler</h1>
+            <Datatable type="costs" />
           </div>
         </div>
         <div className="end">

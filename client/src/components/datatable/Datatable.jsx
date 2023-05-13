@@ -1,24 +1,42 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { fetchSuccess } from "../../redux/projectSlice.js";
 
-const Datatable = ({ project }) => {
+
+const Datatable = ({type}) => {
   const { currentUser } = useSelector((state) => state.user);
+  const { currentProject } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  const path = useLocation().pathname.split("/")[2];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/projects/find/${path}`);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {
+        console.log("User AUTH Error");
+      }
+    };
+    fetchData();
+  }, [path, dispatch]);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
+    { field: "title", headerName: "Başlık", width: 130 },
     {
-      field: "age",
-      headerName: "Age",
+      field: "amount",
+      headerName: "Miktar",
       type: "number",
       width: 90,
     },
     {
-      field: "fullName",
-      headerName: "Full name",
+      field: "date",
+      headerName: "Tarih",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
       width: 160,
@@ -26,28 +44,26 @@ const Datatable = ({ project }) => {
         `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
   ];
-
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
+  
+  let rows = [];
+  if (type === "payments") {
+    rows = currentProject.payments.map((payment) => ({
+      id: payment._id,
+      title: payment.title,
+      amount: payment.amount,
+      date: payment.date,
+    }));
+  } else if (type === "costs") {
+    rows = currentProject.costs.map((cost) => ({
+      id: cost._id,
+      title: cost.title,
+      amount: cost.amount,
+      date: cost.date,
+    }));
+  }
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <div className="datatableTitle">
-        <h2>Ödemeler ve Maliyetler</h2>
-        <div className="buttonContainer">
-          <button className="paymentButton">Yeni ödeme ekle</button>
-          <button className="costButton">Yeni maliyet ekle</button>
-        </div>
-      </div>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -60,6 +76,7 @@ const Datatable = ({ project }) => {
         checkboxSelection
       />
     </div>
+    
   );
 };
 
