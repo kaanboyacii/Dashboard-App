@@ -6,8 +6,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchSuccess } from "../../redux/projectSlice.js";
 
-
-const Datatable = ({type}) => {
+const Datatable = ({ type }) => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentProject } = useSelector((state) => state.project);
   const dispatch = useDispatch();
@@ -37,28 +36,24 @@ const Datatable = ({type}) => {
     {
       field: "date",
       headerName: "Tarih",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      width: 190,
     },
   ];
-  
+
   let rows = [];
   if (type === "payments") {
     rows = currentProject.payments.map((payment) => ({
       id: payment._id,
       title: payment.title,
-      amount: payment.amount,
-      date: payment.date,
+      amount: payment.amount + " ₺",
+      date: new Date(payment.date).toLocaleDateString(),
     }));
   } else if (type === "costs") {
     rows = currentProject.costs.map((cost) => ({
       id: cost._id,
       title: cost.title,
-      amount: cost.amount,
-      date: cost.date,
+      amount: cost.amount + " ₺",
+      date: new Date(cost.date).toLocaleDateString(),
     }));
   }
 
@@ -76,7 +71,6 @@ const Datatable = ({type}) => {
         checkboxSelection
       />
     </div>
-    
   );
 };
 
