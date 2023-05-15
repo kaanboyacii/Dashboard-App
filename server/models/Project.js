@@ -28,6 +28,14 @@ const ProjectSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    totalCosts: {
+        type: Number,
+        default: 0,
+    },
+    totalPayments: {
+        type: Number,
+        default: 0,
+    },
     costs: {
         type: [
             {
