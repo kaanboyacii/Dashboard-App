@@ -20,9 +20,18 @@ const UpdatePayments = ({ setOpenPayments }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`/projects/${currentProject._id}`, {
-      ...inputs,
-    });
+    const newPayment = {
+      title: inputs.title,
+      amount: inputs.amount,
+      date: new Date(),
+    };
+
+    const updatedProject = {
+      ...currentProject,
+      payments: [...currentProject.payments, newPayment],
+    };
+
+    const res = await axios.put(`/projects/${currentProject._id}`, updatedProject);
     setOpenPayments(false);
     res.status === 200 && navigate(`/projects/${res.data._id}`);
     window.location.reload();
@@ -40,18 +49,18 @@ const UpdatePayments = ({ setOpenPayments }) => {
           type="text"
           placeholder="Başlık"
           name="title"
-          onchange={handleChange}
+          onChange={handleChange}
           className="input"
         />
         <label className="label">Miktar:</label>
         <input
           type="text"
           placeholder="Miktar (₺)"
-          name="title"
-          onchange={handleChange}
+          name="amount"
+          onChange={handleChange}
           className="input"
         />
-        <button onclick={handleUpdate} className="button">
+        <button onClick={handleUpdate} className="button">
           Ekle
         </button>
       </div>

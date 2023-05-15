@@ -20,9 +20,18 @@ const UpdateCosts = ({ setOpenCosts }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`/projects/${currentProject._id}`, {
-      ...inputs,
-    });
+    const newCost = {
+      title: inputs.title,
+      amount: inputs.amount,
+      date: new Date(),
+    };
+
+    const updatedProject = {
+      ...currentProject,
+      costs: [...currentProject.costs, newCost],
+    };
+
+    const res = await axios.put(`/projects/${currentProject._id}`, updatedProject);
     setOpenCosts(false);
     res.status === 200 && navigate(`/projects/${res.data._id}`);
     window.location.reload();
@@ -31,7 +40,7 @@ const UpdateCosts = ({ setOpenCosts }) => {
   return (
     <div className="container">
       <div className="wrapperU">
-        <div className="close" onclick={() => setOpenCosts(false)}>
+        <div className="close" onClick={() => setOpenCosts(false)}>
           X
         </div>
         <h1 className="title">Yeni maliyet ekle</h1>
@@ -40,18 +49,18 @@ const UpdateCosts = ({ setOpenCosts }) => {
           type="text"
           placeholder="Başlık"
           name="title"
-          onchange={handleChange}
+          onChange={handleChange}
           className="input"
         />
         <label className="label">Miktar:</label>
         <input
           type="text"
           placeholder="Miktar (₺)"
-          name="title"
-          onchange={handleChange}
+          name="amount"
+          onChange={handleChange}
           className="input"
         />
-        <button onclick={handleUpdate} className="button">
+        <button onClick={handleUpdate} className="button">
           Ekle
         </button>
       </div>
