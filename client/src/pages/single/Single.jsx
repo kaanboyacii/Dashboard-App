@@ -41,10 +41,6 @@ const Single = () => {
     totalPayments += payment.amount;
   });
 
-  let earning = totalPayments - totalCosts;
-
-  let balance = totalPayments - totalCosts;
-  let absoluteBalance = Math.abs(balance);
 
   return (
     <>
@@ -74,25 +70,25 @@ const Single = () => {
                   <div className="detailItem">
                     <span className="itemKey">Bakiye:</span>
                     <span className="itemValue">
-                      {absoluteBalance.toLocaleString()} ₺
+                      {currentProject.balance.toLocaleString()} ₺
                     </span>
                   </div>
                   <div className="detailItem">
                     <span className="itemKey">Kar / Zarar:</span>
                     <span className="itemValue">
-                      {earning.toLocaleString()} ₺
+                      {currentProject.earning.toLocaleString()} ₺
                     </span>
                   </div>
                   <div className="detailItem">
                     <span className="itemKey">Toplam Alınan Ödeme:</span>
                     <span className="itemValue">
-                      {totalPayments.toLocaleString()} ₺
+                      {currentProject.totalPayments.toLocaleString()} ₺
                     </span>
                   </div>
                   <div className="detailItem">
                     <span className="itemKey">Toplam Maliyet:</span>
                     <span className="itemValue">
-                      {totalCosts.toLocaleString()} ₺
+                      {currentProject.totalCosts.toLocaleString()} ₺
                     </span>
                   </div>
                 </div>
