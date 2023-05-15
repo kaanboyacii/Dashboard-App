@@ -15,7 +15,7 @@ export const addProject = async (req, res, next) => {
 export const updateProject = async (req, res, next) => {
     try {
         const project = await Project.findById(req.params.id);
-        if (!project) return next(createError(404, "Project not found !"));
+        if (!project) return next(createError(404, "Project not found!"));
         if (req.user.id === project.userId) {
             const updatedProject = await Project.findByIdAndUpdate(
                 req.params.id,
@@ -23,17 +23,41 @@ export const updateProject = async (req, res, next) => {
                     $set: req.body,
                 },
                 {
-                    new: true
-                },
+                    new: true,
+                }
             );
-            res.status(200).json(updatedProject)
+
+            let totalCosts = 0;
+            updatedProject.costs.forEach((cost) => {
+                totalCosts += cost.amount;
+            });
+
+            let totalPayments = 0;
+            updatedProject.payments.forEach((payment) => {
+                totalPayments += payment.amount;
+            });
+
+            let earning = totalPayments - totalCosts;
+
+            let balance = earning >= 0 ? 0 : Math.abs(earning);
+
+            updatedProject.totalCosts = totalCosts;
+            updatedProject.totalPayments = totalPayments;
+
+            updatedProject.balance = balance;
+            updatedProject.earning = earning;
+
+            await updatedProject.save();
+
+            res.status(200).json(updatedProject);
         } else {
             return next(createError(403, "You can update only your Project!"));
         }
     } catch (err) {
-        next(err)
+        next(err);
     }
 };
+
 
 
 export const deleteProject = async (req, res, next) => {
