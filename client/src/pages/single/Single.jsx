@@ -113,7 +113,7 @@ const Single = () => {
               </div>
             </div>
             <div className="right">
-              <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
+              <Chart aspect={3 / 1} title="Son 6 Kazanç Grafiği" />
               {/* <h1 className="title">Ödemeler ve Maliyetler</h1>
             <Datatable project={currentProject} /> */}
             </div>

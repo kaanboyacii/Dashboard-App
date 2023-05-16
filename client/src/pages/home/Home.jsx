@@ -49,7 +49,7 @@ const Home = () => {
         </div>
         <div className="charts">
           <Featured />
-          <Chart title="Last 6 Months (Revenue)" aspect={3 / 1} />
+          <Chart title="Son 6 Kazanç Grafiği" aspect={3 / 1} />
         </div>
       </div>
     </div>
