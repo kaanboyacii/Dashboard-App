@@ -5,6 +5,7 @@ import Chart from "../../components/chart/Chart";
 import Datatable from "../../components/datatable/Datatable";
 import UpdateCosts from "../../components/update/UpdateCosts";
 import UpdatePayments from "../../components/update/UpdatePayments";
+import UpdateProject from "../../components/update/UpdateProject";
 import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ const Single = () => {
   const navigate = useNavigate();
   const [openPayments, setOpenPayments] = useState(false);
   const [openCosts, setOpenCosts] = useState(false);
+  const [openProject, setOpenProject] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +52,7 @@ const Single = () => {
           <Navbar />
           <div className="top">
             <div className="left">
-              <div className="editButton">Düzenle</div>
+              <div className="editButton" onClick={() => setOpenProject(true)}>Düzenle</div>
               <h1 className="title">Bilgiler</h1>
               <div className="item">
                 <div className="details">
@@ -134,6 +136,7 @@ const Single = () => {
       </div>
       {openPayments && <UpdatePayments setOpenPayments={setOpenPayments} />}
       {openCosts && <UpdateCosts setOpenCosts={setOpenCosts} />}
+      {openProject && <UpdateProject setOpenProject={setOpenProject} />}
     </>
   );
 };
