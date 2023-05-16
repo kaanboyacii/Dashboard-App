@@ -12,6 +12,17 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Widget = ({ type, amount, diff }) => {
+  const [projects, setProjects] = useState([]);
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const res = await axios.get(`/projects/findByUser/${currentUser._id}`);
+      setProjects(res.data);
+    };
+    fetchProjects();
+  }, []);
+
   let data;
   let to;
 
@@ -48,9 +59,14 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
-      to = "/orders"; // replace with the URL for the orders page
+      to = "/orders";
       break;
     case "earning":
+      const totalEarning = projects.reduce(
+        (acc, project) => acc + project.earning,
+        0
+      );
+      amount = totalEarning.toLocaleString();
       data = {
         title: "GENEL KAR",
         isMoney: true,
@@ -62,9 +78,14 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
-      to = "/earnings"; // replace with the URL for the earnings page
+      to = "/earnings";
       break;
     case "balance":
+      const totalBalance = projects.reduce(
+        (acc, project) => acc + project.balance,
+        0
+      );
+      amount = totalBalance.toLocaleString();
       data = {
         title: "GENEL BAKİYE",
         isMoney: true,
