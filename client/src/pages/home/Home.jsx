@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const [projects, setProjects] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
-  
+
   useEffect(() => {
     const fetchProjects = async () => {
       const res = await axios.get(`/projects/findByUser/${currentUser._id}`);
@@ -20,17 +20,28 @@ const Home = () => {
     };
     fetchProjects();
   }, []);
-  const projectLength = projects.length;
 
-  const [lastDayProjects, setLastDayProjects] = useState(0);
-  let diffPercentage = 20;
+  const projectLength = projects.length;
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
   
-  if (lastDayProjects !== 0) {
-    const diff = projectLength - lastDayProjects;
-    diffPercentage = ((diff / lastDayProjects) * 100).toFixed(2);
-    diffPercentage = diffPercentage > 0 ? `+${diffPercentage}` : diffPercentage;
-    diffPercentage = `${diffPercentage}%`;
-  }
+  const yesterdayProjects = projects.filter(
+    (project) => new Date(project.createdAt) <= yesterday && !project.endDate
+  ).length;
+  
+  const currentProjects = projects.length;
+  
+  const diffPercentage =
+    yesterdayProjects !== 0
+      ? (((currentProjects - yesterdayProjects) / yesterdayProjects) * 100).toFixed(2)
+      : 0;
+  
+  console.log(`Dün mevcut proje sayısı: ${yesterdayProjects}`);
+  console.log(`Bugün mevcut proje sayısı: ${currentProjects}`);
+  console.log(`Yüzdelik artış/azalış oranı: ${diffPercentage}%`);
+  
+  
   
   return (
     <div className="home">
