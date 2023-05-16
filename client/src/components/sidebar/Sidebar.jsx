@@ -66,7 +66,7 @@ const Sidebar = () => {
             <LocalShippingIcon className="icon" />
             <span>Siparişler</span>
           </li>
-          <p className="title">Kullanım</p>
+          <p className="title">KULLANIM</p>
           <li>
             <InsertChartIcon className="icon" />
             <span>İstatistikler</span>

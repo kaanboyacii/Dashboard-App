@@ -12,38 +12,6 @@
     gap: 5px;
     width: auto;
   }
-
-  .paymentButton {
-    padding: 8px 16px;
-    background-color: #1ae427;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    transition: all 0.2s ease-in-out;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 700;
-
-    &:hover {
-      background-color: #1c7913;
-    }
-  }
-
-  .costButton {
-    padding: 8px 16px;
-    background-color: #f20000;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    transition: all 0.2s ease-in-out;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 700;
-
-    &:hover {
-      background-color: #761818;
-    }
-  }
 }
 
 .cellWithStatus {

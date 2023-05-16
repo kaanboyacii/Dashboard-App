@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Widget = ({ type, amount, diff }) => {
   let data;
+  let to;
 
   switch (type) {
     case "user":
@@ -29,6 +31,7 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
+      to = "/projects"; // replace with the URL for the projects page
       break;
     case "order":
       data = {
@@ -45,6 +48,7 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
+      to = "/orders"; // replace with the URL for the orders page
       break;
     case "earning":
       data = {
@@ -58,6 +62,7 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
+      to = "/earnings"; // replace with the URL for the earnings page
       break;
     case "balance":
       data = {
@@ -74,6 +79,7 @@ const Widget = ({ type, amount, diff }) => {
           />
         ),
       };
+      to = "/balance"; // replace with the URL for the balance page
       break;
     default:
       break;
@@ -86,7 +92,9 @@ const Widget = ({ type, amount, diff }) => {
         <span className="counter">
           {amount} {data.isMoney && "₺"}
         </span>
-        <span className="link">{data.link}</span>
+        <Link style={{ textDecoration: "none", color: "black" }} to={to}>
+          <span className="link">{data.link}</span>
+        </Link>
       </div>
       <div className="right">
         <div
