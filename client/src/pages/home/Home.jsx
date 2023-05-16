@@ -25,24 +25,21 @@ const Home = () => {
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
-  
+
   const yesterdayProjects = projects.filter(
     (project) => new Date(project.createdAt) <= yesterday && !project.endDate
   ).length;
-  
+
   const currentProjects = projects.length;
-  
+
   const diffPercentage =
     yesterdayProjects !== 0
-      ? (((currentProjects - yesterdayProjects) / yesterdayProjects) * 100).toFixed(2)
+      ? (
+          ((currentProjects - yesterdayProjects) / yesterdayProjects) *
+          100
+        ).toFixed(2)
       : 0;
-  
-  console.log(`Dün mevcut proje sayısı: ${yesterdayProjects}`);
-  console.log(`Bugün mevcut proje sayısı: ${currentProjects}`);
-  console.log(`Yüzdelik artış/azalış oranı: ${diffPercentage}%`);
-  
-  
-  
+
   return (
     <div className="home">
       <Sidebar />
@@ -51,8 +48,8 @@ const Home = () => {
         <div className="widgets">
           <Widget type="user" amount={projectLength} diff={diffPercentage} />
           <Widget type="order" />
-          <Widget type="earning" />
-          <Widget type="balance" />
+          <Widget type="earning" diff={0} />
+          <Widget type="balance" diff={0} />
         </div>
         <div className="listContainer">
           <div className="listTitle">Projelerim</div>
