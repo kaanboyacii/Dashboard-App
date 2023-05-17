@@ -63,6 +63,10 @@ const New = () => {
                 <label>Durum</label>
                 <input type="text" name="status" onChange={handleChange} required />
               </div>
+              <div className="formInput">
+                <label>İletişim</label>
+                <input type="text" name="contact" onChange={handleChange} required />
+              </div>
             <button onClick={handleUpload}>Proje Oluştur</button>
             {errorMessage && <div className="errorMessage">{errorMessage}</div>}            </form>
           </div>
