@@ -45,6 +45,21 @@
             background-color: #761818;
           }
         }
+        .pdfButton {
+          padding: 8px 16px;
+          background-color: #253da9;
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          transition: all 0.2s ease-in-out;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          &:hover {
+            background-color: #292c4a;
+          }
+        }
 
         .editButton {
           position: absolute;

@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
+import ReactPDF from "@react-pdf/renderer";
+import PDFDocument from "../../PDFDocument.jsx";
+import { pdf } from "@react-pdf/renderer"; // Import the pdf function
 
 const Single = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -43,6 +46,16 @@ const Single = () => {
     totalPayments += payment.amount;
   });
 
+  const handlePDFGenerate = () => {
+    // Logic to generate PDF
+    // You can use the `react-pdf` library to render the PDF component and generate the PDF file
+    // Example code:
+    const blobPromise = pdf(<PDFDocument project={currentProject} />).toBlob();
+    blobPromise.then((blob) => {
+      const url = URL.createObjectURL(blob);
+      window.open(url); // Open the PDF in a new tab or handle it as needed
+    });
+  };
 
   return (
     <>
@@ -52,7 +65,9 @@ const Single = () => {
           <Navbar />
           <div className="top">
             <div className="left">
-              <div className="editButton" onClick={() => setOpenProject(true)}>Düzenle</div>
+              <div className="editButton" onClick={() => setOpenProject(true)}>
+                Düzenle
+              </div>
               <h1 className="title">Bilgiler</h1>
               <div className="item">
                 <div className="details">
@@ -108,6 +123,9 @@ const Single = () => {
                     className="costButton"
                   >
                     Yeni maliyet ekle
+                  </button>
+                  <button className="pdfButton" onClick={handlePDFGenerate}>
+                    PDF Oluştur
                   </button>
                 </div>
               </div>
