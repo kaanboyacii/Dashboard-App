@@ -12,11 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import ReactPDF from "@react-pdf/renderer";
-// import PDFDocument from "../../PDFDocument.jsx";
-import { pdf } from "@react-pdf/renderer"; 
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -49,43 +46,50 @@ const Single = () => {
   currentProject.payments.forEach((payment) => {
     totalPayments += payment.amount;
   });
-
+  
   const generatePDF = (project) => {
     const docDefinition = {
+      header: {
+        text: 'İZ Mimarlık',
+        alignment: 'right',
+        fontSize: 18,
+        margin: [10, 10, 10, 10],
+      },
       content: [
-        { text: 'Proje Adı: ' + project.title, fontSize: 14, margin: [0, 0, 0, 10] },
+        { text: project.title, fontSize: 18, margin: [0, 0, 0, 10] },
         { text: 'Açıklama: ' + project.desc, fontSize: 12, margin: [0, 0, 0, 10] },
         { text: 'Durum: ' + project.status, fontSize: 12, margin: [0, 0, 0, 10] },
+        { text: 'Güncel Bakiye: ' + project.balance.toLocaleString() + ' ₺', fontSize: 12, margin: [0, 0, 0, 10] },
         { text: 'İşveren İletişim: ' + project.contact, fontSize: 12, margin: [0, 0, 0, 10] },
-        { text: 'Costs:', fontSize: 12, margin: [0, 0, 0, 10] },
+        { text: 'Maliyetler:', fontSize: 12, margin: [0, 0, 0, 10] },
         {
           ul: project.costs.map((cost) => ({
-            text: 'Başlık: ' + cost.title + ' Miktar: ' + cost.amount,
+            text: [
+              { text: 'Başlık: ' + cost.title, margin: [0, 0, 0, 5] },
+              { text: '      Miktar: ' + cost.amount.toLocaleString() + ' ₺', margin: [0, 0, 0, 5] },
+              { text: '      Tarih: ' +  new Date(cost.date).toLocaleDateString(), margin: [0, 0, 0, 5] }
+            ]
           })),
         },
-        { text: 'Payments:', fontSize: 12, margin: [0, 10, 0, 10] },
+        { text: 'Toplam Maliyet: ' + project.totalCosts.toLocaleString() + '₺', fontSize: 12, margin: [10, 0, 0, 10] },
+        { text: 'Ödemeler:', fontSize: 12, margin: [0, 10, 0, 10] },
         {
           ul: project.payments.map((payment) => ({
-            text: 'Başlık: ' + payment.title + ' Miktar: ' + payment.amount,
+            text: [
+              { text: 'Başlık: ' + payment.title, margin: [0, 0, 0, 5] },
+              { text: '      Miktar: ' + payment.amount.toLocaleString() + ' ₺', margin: [0, 0, 0, 5] },
+              { text: '      Tarih: ' + new Date(payment.date).toLocaleDateString(), margin: [0, 0, 0, 5] }
+            ]
           })),
         },
+        { text: 'Toplam Ödeme: ' + project.totalPayments.toLocaleString() + '₺', fontSize: 12, margin: [10, 0, 0, 10] },
       ],
     };
   
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.open();
   };
-
-  // const handlePDFGenerate = () => {
-  //   // Logic to generate PDF
-  //   // You can use the `react-pdf` library to render the PDF component and generate the PDF file
-  //   // Example code:
-  //   const blobPromise = pdf(<PDFDocument project={currentProject} />).toBlob();
-  //   blobPromise.then((blob) => {
-  //     const url = URL.createObjectURL(blob);
-  //     window.open(url); // Open the PDF in a new tab or handle it as needed
-  //   });
-  // };
+  
 
   return (
     <>
