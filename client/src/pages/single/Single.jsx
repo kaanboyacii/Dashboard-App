@@ -13,8 +13,12 @@ import axios from "axios";
 import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactPDF from "@react-pdf/renderer";
-import PDFDocument from "../../PDFDocument.jsx";
-import { pdf } from "@react-pdf/renderer"; // Import the pdf function
+// import PDFDocument from "../../PDFDocument.jsx";
+import { pdf } from "@react-pdf/renderer"; 
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const Single = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -46,16 +50,42 @@ const Single = () => {
     totalPayments += payment.amount;
   });
 
-  const handlePDFGenerate = () => {
-    // Logic to generate PDF
-    // You can use the `react-pdf` library to render the PDF component and generate the PDF file
-    // Example code:
-    const blobPromise = pdf(<PDFDocument project={currentProject} />).toBlob();
-    blobPromise.then((blob) => {
-      const url = URL.createObjectURL(blob);
-      window.open(url); // Open the PDF in a new tab or handle it as needed
-    });
+  const generatePDF = (project) => {
+    const docDefinition = {
+      content: [
+        { text: 'Proje Adı: ' + project.title, fontSize: 14, margin: [0, 0, 0, 10] },
+        { text: 'Açıklama: ' + project.desc, fontSize: 12, margin: [0, 0, 0, 10] },
+        { text: 'Durum: ' + project.status, fontSize: 12, margin: [0, 0, 0, 10] },
+        { text: 'İşveren İletişim: ' + project.contact, fontSize: 12, margin: [0, 0, 0, 10] },
+        { text: 'Costs:', fontSize: 12, margin: [0, 0, 0, 10] },
+        {
+          ul: project.costs.map((cost) => ({
+            text: 'Başlık: ' + cost.title + ' Miktar: ' + cost.amount,
+          })),
+        },
+        { text: 'Payments:', fontSize: 12, margin: [0, 10, 0, 10] },
+        {
+          ul: project.payments.map((payment) => ({
+            text: 'Başlık: ' + payment.title + ' Miktar: ' + payment.amount,
+          })),
+        },
+      ],
+    };
+  
+    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+    pdfDocGenerator.open();
   };
+
+  // const handlePDFGenerate = () => {
+  //   // Logic to generate PDF
+  //   // You can use the `react-pdf` library to render the PDF component and generate the PDF file
+  //   // Example code:
+  //   const blobPromise = pdf(<PDFDocument project={currentProject} />).toBlob();
+  //   blobPromise.then((blob) => {
+  //     const url = URL.createObjectURL(blob);
+  //     window.open(url); // Open the PDF in a new tab or handle it as needed
+  //   });
+  // };
 
   return (
     <>
@@ -124,7 +154,10 @@ const Single = () => {
                   >
                     Yeni maliyet ekle
                   </button>
-                  <button className="pdfButton" onClick={handlePDFGenerate}>
+                  <button
+                    className="pdfButton"
+                    onClick={() => generatePDF(currentProject)}
+                  >
                     PDF Oluştur
                   </button>
                 </div>
