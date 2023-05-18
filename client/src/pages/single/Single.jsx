@@ -71,7 +71,7 @@ const Single = () => {
             ]
           })),
         },
-        { text: 'Toplam Maliyet: ' + project.totalCosts.toLocaleString() + '₺', fontSize: 12, margin: [10, 0, 0, 10] },
+        { text: 'Toplam Maliyet: ' + project.totalCosts.toLocaleString() + '₺', fontSize: 12, margin: [10, 10, 10, 10] },
         { text: 'Ödemeler:', fontSize: 12, margin: [0, 10, 0, 10] },
         {
           ul: project.payments.map((payment) => ({
@@ -82,7 +82,7 @@ const Single = () => {
             ]
           })),
         },
-        { text: 'Toplam Ödeme: ' + project.totalPayments.toLocaleString() + '₺', fontSize: 12, margin: [10, 0, 0, 10] },
+        { text: 'Toplam Ödeme: ' + project.totalPayments.toLocaleString() + '₺', fontSize: 12, margin: [10, 10, 10, 10] },
       ],
     };
   

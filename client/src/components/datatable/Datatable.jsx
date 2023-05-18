@@ -1,6 +1,6 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,8 +16,8 @@ const Datatable = ({ type }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const videoRes = await axios.get(`/projects/find/${path}`);
-        dispatch(fetchSuccess(videoRes.data));
+        const projectRes = await axios.get(`/projects/find/${path}`);
+        dispatch(fetchSuccess(projectRes.data));
       } catch (err) {
         console.log("User AUTH Error");
       }
@@ -38,17 +38,25 @@ const Datatable = ({ type }) => {
       headerName: "Tarih",
       width: 190,
     },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 120,
+      renderCell: (params) => (
+        <button onClick={() => deletePaymentOrCost(params.id)}>Delete</button>
+      ),
+    },
   ];
 
   let rows = [];
-  if (type === "payments") {
+  if (type === "payments" && currentProject) {
     rows = currentProject.payments.map((payment) => ({
       id: payment._id,
       title: payment.title,
       amount: payment.amount + " ₺",
       date: new Date(payment.date).toLocaleDateString(),
     }));
-  } else if (type === "costs") {
+  } else if (type === "costs" && currentProject) {
     rows = currentProject.costs.map((cost) => ({
       id: cost._id,
       title: cost.title,
@@ -57,18 +65,41 @@ const Datatable = ({ type }) => {
     }));
   }
 
+  const deletePaymentOrCost = async (id) => {
+    try {
+      const confirmed = window.confirm("Silmek istediğinize emin misiniz?");
+      if (!confirmed) {
+        return;
+      }
+      if (type === "payments") {
+        await axios.delete(`/projects/${path}/payments/${id}`);
+      } else if (type === "costs") {
+        await axios.delete(`/projects/${path}/costs/${id}`);
+      }
+      fetchData();
+    } catch (err) {
+      console.log("Error deleting payment or cost");
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const projectRes = await axios.get(`/projects/find/${path}`);
+      dispatch(fetchSuccess(projectRes.data));
+    } catch (err) {
+      console.log("User AUTH Error");
+    }
+  };
+
+  const getRowId = (row) => row.id; // Satır kimlik bilgisini belirlemek için fonksiyon
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
+        pageSize={5}
+        getRowId={getRowId} // Satır kimlik bilgisini belirtir
       />
     </div>
   );
