@@ -1,5 +1,5 @@
 import express from "express";
-import { addProject, deleteProject, getAllProject, getProject, getProjectsByUserId, random, search, updateProject } from "../controllers/project.js";
+import { addProject, deleteProject, getAllProject, getProject, getProjectsByUserId, random, search, updateProject , deletePayment, deleteCost} from "../controllers/project.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
@@ -8,6 +8,8 @@ router.get("/", verifyToken, getAllProject)
 router.post("/", verifyToken, addProject)
 router.put("/:id", verifyToken, updateProject)
 router.delete("/:id", verifyToken, deleteProject)
+router.delete("/:id/payments/:paymentId", verifyToken, deletePayment);
+router.delete("/:id/costs/:costId", verifyToken, deleteCost);
 router.get("/find/:id", getProject)
 router.get("/findByUser/:userId", getProjectsByUserId)
 
