@@ -43,7 +43,12 @@ const Datatable = ({ type }) => {
       headerName: "Actions",
       width: 120,
       renderCell: (params) => (
-        <button className="deleteButton" onClick={() => deletePaymentOrCost(params.id)}>Kaldır</button>
+        <button
+          className="deleteButton"
+          onClick={() => deletePaymentOrCost(params.id)}
+        >
+          Kaldır
+        </button>
       ),
     },
   ];
@@ -98,8 +103,13 @@ const Datatable = ({ type }) => {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        getRowId={getRowId} // Satır kimlik bilgisini belirtir
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
       />
     </div>
   );
