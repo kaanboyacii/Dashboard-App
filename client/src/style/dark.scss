@@ -1,19 +1,36 @@
 .app.dark {
-  background-color: #111;
-  color: rgb(156, 156, 156);
+  background-color: #1d1b1b;
+  color: #82c3ec;
 
   .chartGrid {
-    stroke: rgba(228, 228, 228, 0.219);
+    stroke: #82c3ec;
   }
 
   .table {
-    background-color: #111;
-
+    background-color: #1d1b1b;
     .tableCell {
-      color: gray;
+      color: #fff;
+    }
+    .tableHead {
+      background-color: #494545;
+      font-weight: 700;
+    }
+    .tableRow {
+      &:nth-child(even) {
+        background-color: #494545;
+      }
+
+      &:nth-child(odd) {
+        background-color: #1d1b1b;
+      }
+
+      &:hover {
+        background-color: #303030;
+        transition: background-color 0.5s ease-in-out; /* Renk değişimi 0.5 saniye sürsün ve yavaşça gerçekleşsin */
+      }
     }
   }
-  .widget{
+  .widget {
     .link {
       width: max-content;
       font-size: 12px;
@@ -40,7 +57,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-    
+
       &:hover {
         background-color: #fff;
         color: #000;
@@ -48,18 +65,18 @@
     }
     .logout-button {
       @extend .button;
-      background-color: #111;
-      color: #f20000;
-    
+      background-color: #1d1b1b;
+      color: #4b56d2;
+
       &:hover {
-        background-color: #f20000;
+        background-color: #4b56d2;
         color: #fff;
       }
     }
   }
 
   .sidebar {
-    background-color: #111;
+    background-color: #1d1b1b;
     border-color: #333;
 
     .top {
@@ -80,20 +97,6 @@
         .icon {
           color: #999;
         }
-      }
-    }
-  }
-
-  .datatable {
-    .datagrid {
-      color: gray;
-      border: none;
-
-      .viewButton,
-      .deleteButton,
-      .cellWithStatus {
-        color: gray;
-        border: none;
       }
     }
   }

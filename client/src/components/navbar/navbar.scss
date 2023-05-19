@@ -33,10 +33,10 @@
     .logout-button {
       @extend .button;
       background-color: #fff;
-      color: #f20000;
+      color: #4B56D2;
     
       &:hover {
-        background-color: #f20000;
+        background-color: #4B56D2;
         color: #fff;
       }
     }
@@ -82,7 +82,7 @@
         .counter {
           width: 15px;
           height: 15px;
-          background-color: red;
+          background-color: #4B56D2;
           border-radius: 50%;
           color: white;
           display: flex;

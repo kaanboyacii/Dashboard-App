@@ -56,13 +56,13 @@
 
             &:focus {
               outline: none;
-              border-bottom-color: #f20000;
+              border-bottom-color: #4B56D2;
             }
           }
         }
       }
       .errorMessage {
-        color: #f20000;
+        color: #4B56D2;
         text-align: center;
         margin-top: 10px;
       }
@@ -70,7 +70,7 @@
         width: 100%;
         padding: 10px;
         border: none;
-        background-color: #f20000;
+        background-color: #4B56D2;
         color: white;
         font-weight: bold;
         font-weight: 500;

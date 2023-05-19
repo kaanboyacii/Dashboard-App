@@ -47,7 +47,7 @@
         }
         .pdfButton {
           padding: 8px 16px;
-          background-color: #253da9;
+          background-color: #4B56D2;
           color: #fff;
           border: none;
           border-radius: 10px;
@@ -57,7 +57,7 @@
           font-weight: 700;
           cursor: pointer;
           &:hover {
-            background-color: #292c4a;
+            background-color: #472183;
           }
         }
 
@@ -67,14 +67,14 @@
           right: 0;
           padding: 5px;
           font-size: 18px;
-          color: #f20000;
+          color: #472183;
           background-color: #f5f5f5;
           cursor: pointer;
           border-radius: 0px 0px 0px 10px;
           transition: all 0.2s ease-in-out;
 
           &:hover {
-            background-color: #f20000;
+            background-color: #472183;
             color: #ffff;
           }
         }
