@@ -113,7 +113,7 @@ const Widget = ({ type, amount, diff }) => {
         <span className="counter">
           {amount} {data.isMoney && "₺"}
         </span>
-        <Link style={{ textDecoration: "none", color: "black" }} to={to}>
+        <Link style={{ textDecoration: "none" }} to={to}>
           <span className="link">{data.link}</span>
         </Link>
       </div>
