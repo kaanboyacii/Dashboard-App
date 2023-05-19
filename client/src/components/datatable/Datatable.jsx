@@ -43,7 +43,7 @@ const Datatable = ({ type }) => {
       headerName: "Actions",
       width: 120,
       renderCell: (params) => (
-        <button onClick={() => deletePaymentOrCost(params.id)}>Delete</button>
+        <button className="deleteButton" onClick={() => deletePaymentOrCost(params.id)}>Kaldır</button>
       ),
     },
   ];
