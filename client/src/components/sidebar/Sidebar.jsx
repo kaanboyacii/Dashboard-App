@@ -11,14 +11,14 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../../redux/userSlice.js";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  const { dispatch } = useContext(DarkModeContext); // DarkModeContext'ten dispatch'i alıyoruz
   const dispatchL = useDispatch();
 
   const handleLogout = async (e) => {

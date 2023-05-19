@@ -14,8 +14,10 @@ import { Navigate } from 'react-router-dom';
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
+  const { darkMode } = useContext(DarkModeContext);
 
   return (
+    <div className={darkMode ? "app dark" : "app"}>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -48,6 +50,7 @@ function App() {
         )}
       </Routes>
     </BrowserRouter>
+    </div>
   );
 }
 
