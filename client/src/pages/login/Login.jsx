@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to bottom, #667eea, #764ba2);
+  background: linear-gradient(to bottom, #4B56D2, #472183);
 `;
 const slideIn = keyframes`
   from {
@@ -28,7 +28,7 @@ const slideIn = keyframes`
   }
 `;
 const Wrapper = styled.div`
-  background-color: #fff;
+  background-color: #F1F6F5;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   overflow: hidden;
@@ -69,8 +69,8 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #667eea;
-  color: #fff;
+  background-color: #4B56D2;
+  color: #F1F6F5;
   border: none;
   border-radius: 5px;
   padding: 1rem;
@@ -78,7 +78,8 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #764ba2;
+    background-color: #472183;
+    transition: all 0.2s ease-in-out;
   }
 `;
 

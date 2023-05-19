@@ -68,7 +68,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #667eea;
+  background-color: #4B56D2;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -77,7 +77,8 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #764ba2;
+    background-color: #472183;
+    transition: all 0.2s ease-in-out;
   }
 `;
 
