@@ -42,16 +42,22 @@ const Chart = ({ aspect, title }) => {
     { name: previousMonths[0], Total: 0 },
     { name: currentMonth, Total: 0 },
   ];
-
+  
   for (const project of projects) {
-    const projectMonth = new Date(project.createdAt).toLocaleDateString('tr-TR', { month: 'long' });
-    const index = previousMonths.indexOf(projectMonth);
-    if (index >= 0) {
-      projectData[index].Total += project.earning;
-    } else if (projectMonth === currentMonth) {
-      projectData[5].Total += project.earning;
+    const projectDate = new Date(project.createdAt);
+    const projectMonth = projectDate.getMonth();
+    const projectYear = projectDate.getFullYear();
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+  
+    if (projectYear === currentYear && projectMonth >= currentMonth - 5 && projectMonth <= currentMonth) {
+      const monthDifference = (currentYear - projectYear) * 12 + (currentMonth - projectMonth);
+      projectData[5 - monthDifference].Total += project.earning;
     }
   }
+  
+  
   return (
     <div className="chart">
       <div className="title">{title}</div>
