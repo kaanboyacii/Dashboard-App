@@ -81,20 +81,21 @@ const Datatable = ({ type }) => {
 
   let rows = [];
   if (type === "payments" && currentProject) {
-    rows = currentProject.payments.map((payment) => ({
-      id: payment._id,
+    rows = currentProject.payments.map((payment, index) => ({
+      id: payment._id || index, // payment._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: payment.title,
       amount: payment.amount + " ₺",
       date: new Date(payment.date).toLocaleDateString(),
     }));
   } else if (type === "costs" && currentProject) {
-    rows = currentProject.costs.map((cost) => ({
-      id: cost._id,
+    rows = currentProject.costs.map((cost, index) => ({
+      id: cost._id || index, // cost._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: cost.title,
       amount: cost.amount + " ₺",
       date: new Date(cost.date).toLocaleDateString(),
     }));
   }
+  
 
   const deletePaymentOrCost = async (id) => {
     try {
@@ -123,14 +124,14 @@ const Datatable = ({ type }) => {
   };
 
   const getRowId = (row) => row.id;
-  const getRowClassName = (params) => {
-    // İstenilen şartlara göre satırlara sınıf adı ekleyebilirsiniz
-    if (params.row.id % 2 === 0) {
-      return "even-row"; // Çift numaralı satırlara even-row sınıfını ekleyin
-    } else {
-      return "odd-row"; // Tek numaralı satırlara odd-row sınıfını ekleyin
-    }
-  };
+  // const getRowClassName = (params) => {
+  //   // İstenilen şartlara göre satırlara sınıf adı ekleyebilirsiniz
+  //   if (params.row.id % 2 === 0) {
+  //     return "even-row"; // Çift numaralı satırlara even-row sınıfını ekleyin
+  //   } else {
+  //     return "odd-row"; // Tek numaralı satırlara odd-row sınıfını ekleyin
+  //   }
+  // };
   const renderPageCount = (params) => {
     const { pagination } = params;
     const pageCount = Math.ceil(pagination.rowCount / pagination.pageSize);
@@ -154,7 +155,6 @@ const Datatable = ({ type }) => {
           pageSizeOptions={[5, 10]}
           checkboxSelection
           getRowId={getRowId}
-          getRowClassName={getRowClassName}
           localeText={{
             footerPaginationRowCount: renderPageCount,
             toolbarDensity: 'Yoğunluk',
