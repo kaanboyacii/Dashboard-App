@@ -10,7 +10,7 @@ import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
+import { fetchSuccess ,deleteProjectSuccess, deleteProjectFailure } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -39,13 +39,17 @@ const Single = () => {
   }, [path, dispatch]);
 
   let totalCosts = 0;
-  currentProject.costs.forEach((cost) => {
-    totalCosts += cost.amount;
-  });
   let totalPayments = 0;
-  currentProject.payments.forEach((payment) => {
-    totalPayments += payment.amount;
-  });
+  
+  if (currentProject && currentProject.costs && currentProject.payments) {
+    currentProject.costs.forEach((cost) => {
+      totalCosts += cost.amount;
+    });
+  
+    currentProject.payments.forEach((payment) => {
+      totalPayments += payment.amount;
+    });
+  }
   
   const generatePDF = (project) => {
     const docDefinition = {
@@ -90,6 +94,17 @@ const Single = () => {
     pdfDocGenerator.open();
   };
   
+  
+  const handleDeleteProject = async () => {
+    try {
+      await axios.delete(`/projects/${currentProject._id}`);
+      navigate('/projects');
+      dispatch(deleteProjectSuccess());
+    } catch (error) {
+      console.log(error);
+      dispatch(deleteProjectFailure());
+    }
+  };
 
   return (
     <>
@@ -102,6 +117,7 @@ const Single = () => {
               <div className="editButton" onClick={() => setOpenProject(true)}>
                 Düzenle
               </div>
+              <div className="newButton"  onClick={handleDeleteProject}>Projeyi Kaldır</div>
               <h1 className="title">Bilgiler</h1>
               <div className="item">
                 <div className="details">
@@ -197,3 +213,5 @@ const Single = () => {
 };
 
 export default Single;
+
+
