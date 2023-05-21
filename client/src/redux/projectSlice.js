@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentVideo: null,
+  currentProject: null,
   loading: false,
   error: false,
 };
@@ -21,32 +21,17 @@ export const projectSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    like: (state, action) => {
-      if (!state.currentProject.likes.includes(action.payload)) {
-        state.currentProject.likes.push(action.payload);
-        state.currentProject.dislikes.splice(
-          state.currentProject.dislikes.findIndex(
-            (userId) => userId === action.payload
-          ),
-          1
-        );
-      }
+    deleteProjectSuccess: (state) => {
+      state.currentProject = null; // Silinen proje null olarak güncelleniyor
     },
-    dislike: (state, action) => {
-      if (!state.currentProject.dislikes.includes(action.payload)) {
-        state.currentProject.dislikes.push(action.payload);
-        state.currentProject.likes.splice(
-          state.currentProject.likes.findIndex(
-            (userId) => userId === action.payload
-          ),
-          1
-        );
-      }
+    deleteProjectFailure: (state) => {
+      state.error = true; // Silme hatası durumunu güncelliyor
     },
   },
 });
 
-export const { fetchStart, fetchSuccess, fetchFailure, like, dislike } =
+export const { fetchStart, fetchSuccess, fetchFailure, deleteProjectSuccess, deleteProjectFailure } =
   projectSlice.actions;
 
 export default projectSlice.reducer;
+
