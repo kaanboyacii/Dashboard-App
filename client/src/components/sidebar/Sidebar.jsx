@@ -1,13 +1,13 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
@@ -16,9 +16,12 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../../redux/userSlice.js";
+import LogoLight from "../../img/logolight.png";
+import LogoDark from "../../img/logodark.png";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext); // DarkModeContext'ten dispatch'i alıyoruz
+  const { dispatch } = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
   const dispatchL = useDispatch();
 
   const handleLogout = async (e) => {
@@ -32,7 +35,11 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">Benim İşim</span>
+          <img
+            className="logo"
+            src={darkMode ? LogoDark : LogoLight}
+            alt=""
+          />
         </Link>
       </div>
       <hr />
@@ -40,11 +47,11 @@ const Sidebar = () => {
         <ul>
           <p className="title">YÖNETİM</p>
           <Link to="/" style={{ textDecoration: "none" }}>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Anasayfa</span>
-          </li>
-          <p className="title">LİSTE</p>
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Anasayfa</span>
+            </li>
+            <p className="title">LİSTE</p>
           </Link>
           <Link to="/projects" style={{ textDecoration: "none" }}>
             <li>
