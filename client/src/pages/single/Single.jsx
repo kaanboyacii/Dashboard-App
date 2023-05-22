@@ -14,6 +14,7 @@ import { fetchSuccess ,deleteProjectSuccess, deleteProjectFailure } from "../../
 import { useLocation, useNavigate } from "react-router-dom";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import ErrorPage from "../ErrorPage";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -37,6 +38,10 @@ const Single = () => {
     };
     fetchData();
   }, [path, dispatch]);
+
+  if (!currentProject) {
+    return <ErrorPage />;
+  }
 
   let totalCosts = 0;
   let totalPayments = 0;
