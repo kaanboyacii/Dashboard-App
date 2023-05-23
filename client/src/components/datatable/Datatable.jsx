@@ -40,7 +40,8 @@ const Datatable = ({ type }) => {
   }, [path, dispatch]);
 
   const columns = [
-    { field: 'title', headerName: 'Başlık', width: 130 },
+    { field: 'title', headerName: 'Başlık', width: 120 },
+    { field: 'category', headerName: 'Kategori', width: 80 },
     {
       field: 'amount',
       headerName: 'Miktar',
@@ -61,12 +62,12 @@ const Datatable = ({ type }) => {
     {
       field: 'date',
       headerName: 'Tarih',
-      width: 190,
+      width: 110,
     },
     {
       field: 'actions',
       headerName: 'Aksiyon',
-      width: 120,
+      width: 80,
       renderCell: (params) => (
         <button
           className="deleteButton"
@@ -84,6 +85,7 @@ const Datatable = ({ type }) => {
     rows = currentProject.payments.map((payment, index) => ({
       id: payment._id || index, // payment._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: payment.title,
+      category: payment.category,
       amount: payment.amount + " ₺",
       date: new Date(payment.date).toLocaleDateString(),
     }));
@@ -91,6 +93,7 @@ const Datatable = ({ type }) => {
     rows = currentProject.costs.map((cost, index) => ({
       id: cost._id || index, // cost._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: cost.title,
+      category: cost.category,
       amount: cost.amount + " ₺",
       date: new Date(cost.date).toLocaleDateString(),
     }));
