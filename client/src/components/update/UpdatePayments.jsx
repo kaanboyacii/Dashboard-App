@@ -22,6 +22,7 @@ const UpdatePayments = ({ setOpenPayments }) => {
     e.preventDefault();
     const newPayment = {
       title: inputs.title,
+      category: inputs.category,
       amount: inputs.amount,
       date: new Date(),
     };
@@ -52,6 +53,13 @@ const UpdatePayments = ({ setOpenPayments }) => {
           onChange={handleChange}
           className="input"
         />
+        <label className="label">Kategori:</label>
+        <select name="category" onChange={handleChange} className="input">
+          <option value="">Kategori Seçin</option>
+          {currentProject.paymentsCategory.map((category, index) => (
+            <option value={category} key={index}>{category}</option>
+          ))}
+        </select>
         <label className="label">Miktar:</label>
         <input
           type="text"
