@@ -136,7 +136,7 @@ export const deleteCost = async (req, res, next) => {
 };
 
 // Proje hesaplamalarını güncelleme işlemi için yardımcı fonksiyon
-const updateProjectCalculations = async (project) => {
+export const updateProjectCalculations = async (project) => {
   let totalCosts = 0;
   project.costs.forEach((cost) => {
     totalCosts += cost.amount;
@@ -158,6 +158,47 @@ const updateProjectCalculations = async (project) => {
   project.earning = earning;
 
   await project.save();
+};
+
+
+export const addCostsCategory = async (req, res) => {
+  const { id } = req.params;
+  const { category } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ error: 'Proje bulunamadı.' });
+    }
+
+    // Kategori ekleme
+    project.costsCategory.push(category);
+    await project.save();
+
+    return res.status(201).json(project);
+  } catch (error) {
+    return res.status(500).json({ error: 'Bir hata oluştu.' });
+  }
+};
+
+export const addPaymentsCategory = async (req, res) => {
+  const { id } = req.params;
+  const { category } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ error: 'Proje bulunamadı.' });
+    }
+
+    // Kategori ekleme
+    project.paymentsCategory.push(category);
+    await project.save();
+
+    return res.status(201).json(project);
+  } catch (error) {
+    return res.status(500).json({ error: 'Bir hata oluştu.' });
+  }
 };
 
 
