@@ -22,6 +22,7 @@ const UpdateCosts = ({ setOpenCosts }) => {
     e.preventDefault();
     const newCost = {
       title: inputs.title,
+      category: inputs.category,
       amount: inputs.amount,
       date: new Date(),
     };
@@ -52,6 +53,13 @@ const UpdateCosts = ({ setOpenCosts }) => {
           onChange={handleChange}
           className="input"
         />
+        <label className="label">Kategori:</label>
+        <select name="category" onChange={handleChange} className="input">
+          <option value="">Kategori Seçin</option>
+          {currentProject.costsCategory.map((category, index) => (
+            <option value={category} key={index}>{category}</option>
+          ))}
+        </select>
         <label className="label">Miktar:</label>
         <input
           type="text"
