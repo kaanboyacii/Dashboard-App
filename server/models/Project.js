@@ -42,20 +42,7 @@ const ProjectSchema = new mongoose.Schema({
                 title: {
                     type: String
                 },
-                amount: {
-                    type: Number
-                },
-                date: {
-                    type: Date
-                },
-            },
-        ],
-        default: [],
-    },
-    payments: {
-        type: [
-            {
-                title: {
+                category: {
                     type: String
                 },
                 amount: {
@@ -67,6 +54,31 @@ const ProjectSchema = new mongoose.Schema({
             },
         ],
         default: [],
+    },
+    costsCategory: {
+        type: [String]
+    },
+    payments: {
+        type: [
+            {
+                title: {
+                    type: String
+                },
+                category: {
+                    type: String
+                },
+                amount: {
+                    type: Number
+                },
+                date: {
+                    type: Date
+                },
+            },
+        ],
+        default: [],
+    },
+    paymentsCategory: {
+        type: [String]
     },
 }, { timestamps: true });
 
