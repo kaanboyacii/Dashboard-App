@@ -75,6 +75,36 @@
             background-color: #472183;
           }
         }
+        .paymentCategoryButton {
+          padding: 5px 10px;
+          background-color: #1ae427;
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          transition: all 0.2s ease-in-out;
+          text-transform: uppercase;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          &:hover {
+            background-color: #1c7913;
+          }
+        }
+        .costCategoryButton {
+          padding: 5px 10px;
+          background-color: #f20000;
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          transition: all 0.2s ease-in-out;
+          text-transform: uppercase;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          &:hover {
+            background-color: #761818;
+          }
+        }
 
         .editButton {
           position: absolute;

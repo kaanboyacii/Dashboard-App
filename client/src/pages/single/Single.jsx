@@ -64,7 +64,22 @@ const Single = () => {
     });
   }
 
+  const groupByCategory = (items) => {
+    const groupedItems = {};
+
+    items.forEach((item) => {
+      if (!groupedItems[item.category]) {
+        groupedItems[item.category] = [];
+      }
+      groupedItems[item.category].push(item);
+    });
+
+    return groupedItems;
+  };
+
   const generatePDF = (project) => {
+    const groupedCosts = groupByCategory(project.costs);
+    const groupedPayments = groupByCategory(project.payments);
     const docDefinition = {
       header: {
         text: "İZ Mimarlık",
@@ -73,69 +88,82 @@ const Single = () => {
         margin: [10, 10, 10, 10],
       },
       content: [
-        { text: project.title, fontSize: 18, margin: [0, 0, 0, 10] },
-        {
-          text: "Açıklama: " + project.desc,
-          fontSize: 12,
-          margin: [0, 0, 0, 10],
-        },
-        {
-          text: "Durum: " + project.status,
-          fontSize: 12,
-          margin: [0, 0, 0, 10],
-        },
+        { text: project.title, fontSize: 16,bold: true, margin: [0, 0, 0, 10] },
         {
           text: "Güncel Bakiye: " + project.balance.toLocaleString() + " ₺",
           fontSize: 12,
           margin: [0, 0, 0, 10],
         },
         {
-          text: "İşveren İletişim: " + project.contact,
-          fontSize: 12,
+          text: "Açıklama: " + project.desc,
+          fontSize: 6,
           margin: [0, 0, 0, 10],
         },
-        { text: "Maliyetler:", fontSize: 12, margin: [0, 0, 0, 10] },
         {
-          ul: project.costs.map((cost) => ({
+          text: "Durum: " + project.status,
+          fontSize: 6,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: "İşveren İletişim: " + project.contact,
+          fontSize: 6,
+          margin: [0, 0, 0, 10],
+        },
+        { text: "Maliyetler:", fontSize: 12,bold: true, margin: [0, 0, 0, 10] },
+        ...Object.entries(groupedCosts).map(([category, costs]) => [
+          {
+            text: `•${category}`,
+            fontSize: 10,
+            margin: [0, 0, 0, 5],
+          },
+          ...costs.map((cost) => ({
             text: [
-              { text: "Başlık: " + cost.title, margin: [0, 0, 0, 5] },
+              { text: "Başlık: " + cost.title + "  ", fontSize: 8 },
               {
-                text: "      Miktar: " + cost.amount.toLocaleString() + " ₺",
-                margin: [0, 0, 0, 5],
+                text: "Miktar: " + cost.amount.toLocaleString() + " ₺  ",
+                fontSize: 8,
               },
               {
-                text:
-                  "      Tarih: " + new Date(cost.date).toLocaleDateString(),
-                margin: [0, 0, 0, 5],
+                text: "Tarih: " + new Date(cost.date).toLocaleDateString(),
+                fontSize: 8,
               },
             ],
+            margin: [0, 0, 0, 5],
           })),
-        },
+        ]),
         {
           text: "Toplam Maliyet: " + project.totalCosts.toLocaleString() + "₺",
-          fontSize: 12,
+          fontSize: 8,
           margin: [10, 10, 10, 10],
         },
-        { text: "Ödemeler:", fontSize: 12, margin: [0, 10, 0, 10] },
-        {
-          ul: project.payments.map((payment) => ({
+        { text: "Ödemeler:", fontSize: 12,bold: true, margin: [0, 10, 0, 10] },
+        ...Object.entries(groupedPayments).map(([category, payments]) => [
+          {
+            text: `•${category}`,
+            fontSize: 10,
+            margin: [0, 0, 0, 5],
+          },
+          ...payments.map((payment) => ({
             text: [
-              { text: "Başlık: " + payment.title, margin: [0, 0, 0, 5] },
               {
-                text: "      Miktar: " + payment.amount.toLocaleString() + " ₺",
-                margin: [0, 0, 0, 5],
+                text: "Başlık: " + payment.title + "  ",
+                fontSize: 8,
               },
               {
-                text:
-                  "      Tarih: " + new Date(payment.date).toLocaleDateString(),
-                margin: [0, 0, 0, 5],
+                text: "Miktar: " + payment.amount.toLocaleString() + " ₺  ",
+                fontSize: 8,
+              },
+              {
+                text: "Tarih: " + new Date(payment.date).toLocaleDateString(),
+                fontSize: 8,
               },
             ],
+            margin: [0, 0, 0, 5],
           })),
-        },
+        ]),
         {
           text: "Toplam Ödeme: " + project.totalPayments.toLocaleString() + "₺",
-          fontSize: 12,
+          fontSize: 8,
           margin: [10, 10, 10, 10],
         },
       ],
@@ -155,7 +183,7 @@ const Single = () => {
       dispatch(deleteProjectFailure());
     }
   };
-  
+
   return (
     <>
       <div className="single">
@@ -222,28 +250,28 @@ const Single = () => {
                       Yeni ödeme ekle
                     </button>
                     <button
-                      onClick={() => setOpenCosts(true)}
-                      className="costButton"
-                    >
-                      Yeni maliyet ekle
-                    </button>
-                    <button
                       className="pdfButton"
                       onClick={() => generatePDF(currentProject)}
                     >
                       Belge Oluştur
                     </button>
+                    <button
+                      onClick={() => setOpenCosts(true)}
+                      className="costButton"
+                    >
+                      Yeni maliyet ekle
+                    </button>
                   </div>
                   <div className="secondRow">
                     <button
-                      className="paymentButton"
-                       onClick={() => setOpenPaymentsCategory(true)}
+                      className="paymentCategoryButton"
+                      onClick={() => setOpenPaymentsCategory(true)}
                     >
                       Yeni ödeme kategorisi ekle
                     </button>
                     <button
-                      className="costButton"
-                       onClick={() => setOpenCostsCategory(true)}
+                      className="costCategoryButton"
+                      onClick={() => setOpenCostsCategory(true)}
                     >
                       Yeni maliyet kategorisi ekle
                     </button>
@@ -276,8 +304,14 @@ const Single = () => {
       {openPayments && <UpdatePayments setOpenPayments={setOpenPayments} />}
       {openCosts && <UpdateCosts setOpenCosts={setOpenCosts} />}
       {openProject && <UpdateProject setOpenProject={setOpenProject} />}
-      {openCostsCategory && <AddCostsCategory setOpenCostsCategory={setOpenCostsCategory} />}
-      {openPaymentsCategory && <AddPaymentsCategory setOpenPaymentsCategory={setOpenPaymentsCategory} />}
+      {openCostsCategory && (
+        <AddCostsCategory setOpenCostsCategory={setOpenCostsCategory} />
+      )}
+      {openPaymentsCategory && (
+        <AddPaymentsCategory
+          setOpenPaymentsCategory={setOpenPaymentsCategory}
+        />
+      )}
     </>
   );
 };
