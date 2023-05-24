@@ -6,6 +6,8 @@ import Datatable from "../../components/datatable/Datatable";
 import UpdateCosts from "../../components/update/UpdateCosts";
 import UpdatePayments from "../../components/update/UpdatePayments";
 import UpdateProject from "../../components/update/UpdateProject";
+import AddCostsCategory from "../../components/update/AddCostsCategory";
+import AddPaymentsCategory from "../../components/update/AddPaymentsCategory";
 import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +31,8 @@ const Single = () => {
   const navigate = useNavigate();
   const [openPayments, setOpenPayments] = useState(false);
   const [openCosts, setOpenCosts] = useState(false);
+  const [openCostsCategory, setOpenCostsCategory] = useState(false);
+  const [openPaymentsCategory, setOpenPaymentsCategory] = useState(false);
   const [openProject, setOpenProject] = useState(false);
 
   useEffect(() => {
@@ -151,7 +155,7 @@ const Single = () => {
       dispatch(deleteProjectFailure());
     }
   };
-
+  
   return (
     <>
       <div className="single">
@@ -231,8 +235,18 @@ const Single = () => {
                     </button>
                   </div>
                   <div className="secondRow">
-                    <button className="paymentButton">Yeni ödeme kategorisi ekle</button>
-                    <button className="costButton">Yeni maliyet kategorisi ekle</button>
+                    <button
+                      className="paymentButton"
+                       onClick={() => setOpenPaymentsCategory(true)}
+                    >
+                      Yeni ödeme kategorisi ekle
+                    </button>
+                    <button
+                      className="costButton"
+                       onClick={() => setOpenCostsCategory(true)}
+                    >
+                      Yeni maliyet kategorisi ekle
+                    </button>
                   </div>
                 </div>
               </div>
@@ -262,6 +276,8 @@ const Single = () => {
       {openPayments && <UpdatePayments setOpenPayments={setOpenPayments} />}
       {openCosts && <UpdateCosts setOpenCosts={setOpenCosts} />}
       {openProject && <UpdateProject setOpenProject={setOpenProject} />}
+      {openCostsCategory && <AddCostsCategory setOpenCostsCategory={setOpenCostsCategory} />}
+      {openPaymentsCategory && <AddPaymentsCategory setOpenPaymentsCategory={setOpenPaymentsCategory} />}
     </>
   );
 };
