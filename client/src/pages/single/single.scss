@@ -1,5 +1,3 @@
-
-
 .single {
   display: flex;
   width: 100%;
@@ -10,6 +8,21 @@
       padding: 20px;
       display: flex;
       gap: 20px;
+      .buttonContainer {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .firstRow {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .secondRow {
+        display: flex;
+        gap: 10px;
+      }
 
       .left {
         flex: 1;
@@ -49,7 +62,7 @@
         }
         .pdfButton {
           padding: 8px 16px;
-          background-color: #4B56D2;
+          background-color: #4b56d2;
           color: #fff;
           border: none;
           border-radius: 10px;
@@ -91,7 +104,7 @@
           cursor: pointer;
           border-radius: 0px 0px 0px 10px;
           transition: all 0.2s ease-in-out;
-        
+
           &:hover {
             background-color: #fff;
             color: #ff0000;

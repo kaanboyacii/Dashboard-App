@@ -10,7 +10,11 @@ import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess ,deleteProjectSuccess, deleteProjectFailure } from "../../redux/projectSlice.js";
+import {
+  fetchSuccess,
+  deleteProjectSuccess,
+  deleteProjectFailure,
+} from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -45,65 +49,102 @@ const Single = () => {
 
   let totalCosts = 0;
   let totalPayments = 0;
-  
+
   if (currentProject && currentProject.costs && currentProject.payments) {
     currentProject.costs.forEach((cost) => {
       totalCosts += cost.amount;
     });
-  
+
     currentProject.payments.forEach((payment) => {
       totalPayments += payment.amount;
     });
   }
-  
+
   const generatePDF = (project) => {
     const docDefinition = {
       header: {
-        text: 'İZ Mimarlık',
-        alignment: 'right',
+        text: "İZ Mimarlık",
+        alignment: "right",
         fontSize: 18,
         margin: [10, 10, 10, 10],
       },
       content: [
         { text: project.title, fontSize: 18, margin: [0, 0, 0, 10] },
-        { text: 'Açıklama: ' + project.desc, fontSize: 12, margin: [0, 0, 0, 10] },
-        { text: 'Durum: ' + project.status, fontSize: 12, margin: [0, 0, 0, 10] },
-        { text: 'Güncel Bakiye: ' + project.balance.toLocaleString() + ' ₺', fontSize: 12, margin: [0, 0, 0, 10] },
-        { text: 'İşveren İletişim: ' + project.contact, fontSize: 12, margin: [0, 0, 0, 10] },
-        { text: 'Maliyetler:', fontSize: 12, margin: [0, 0, 0, 10] },
+        {
+          text: "Açıklama: " + project.desc,
+          fontSize: 12,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: "Durum: " + project.status,
+          fontSize: 12,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: "Güncel Bakiye: " + project.balance.toLocaleString() + " ₺",
+          fontSize: 12,
+          margin: [0, 0, 0, 10],
+        },
+        {
+          text: "İşveren İletişim: " + project.contact,
+          fontSize: 12,
+          margin: [0, 0, 0, 10],
+        },
+        { text: "Maliyetler:", fontSize: 12, margin: [0, 0, 0, 10] },
         {
           ul: project.costs.map((cost) => ({
             text: [
-              { text: 'Başlık: ' + cost.title, margin: [0, 0, 0, 5] },
-              { text: '      Miktar: ' + cost.amount.toLocaleString() + ' ₺', margin: [0, 0, 0, 5] },
-              { text: '      Tarih: ' +  new Date(cost.date).toLocaleDateString(), margin: [0, 0, 0, 5] }
-            ]
+              { text: "Başlık: " + cost.title, margin: [0, 0, 0, 5] },
+              {
+                text: "      Miktar: " + cost.amount.toLocaleString() + " ₺",
+                margin: [0, 0, 0, 5],
+              },
+              {
+                text:
+                  "      Tarih: " + new Date(cost.date).toLocaleDateString(),
+                margin: [0, 0, 0, 5],
+              },
+            ],
           })),
         },
-        { text: 'Toplam Maliyet: ' + project.totalCosts.toLocaleString() + '₺', fontSize: 12, margin: [10, 10, 10, 10] },
-        { text: 'Ödemeler:', fontSize: 12, margin: [0, 10, 0, 10] },
+        {
+          text: "Toplam Maliyet: " + project.totalCosts.toLocaleString() + "₺",
+          fontSize: 12,
+          margin: [10, 10, 10, 10],
+        },
+        { text: "Ödemeler:", fontSize: 12, margin: [0, 10, 0, 10] },
         {
           ul: project.payments.map((payment) => ({
             text: [
-              { text: 'Başlık: ' + payment.title, margin: [0, 0, 0, 5] },
-              { text: '      Miktar: ' + payment.amount.toLocaleString() + ' ₺', margin: [0, 0, 0, 5] },
-              { text: '      Tarih: ' + new Date(payment.date).toLocaleDateString(), margin: [0, 0, 0, 5] }
-            ]
+              { text: "Başlık: " + payment.title, margin: [0, 0, 0, 5] },
+              {
+                text: "      Miktar: " + payment.amount.toLocaleString() + " ₺",
+                margin: [0, 0, 0, 5],
+              },
+              {
+                text:
+                  "      Tarih: " + new Date(payment.date).toLocaleDateString(),
+                margin: [0, 0, 0, 5],
+              },
+            ],
           })),
         },
-        { text: 'Toplam Ödeme: ' + project.totalPayments.toLocaleString() + '₺', fontSize: 12, margin: [10, 10, 10, 10] },
+        {
+          text: "Toplam Ödeme: " + project.totalPayments.toLocaleString() + "₺",
+          fontSize: 12,
+          margin: [10, 10, 10, 10],
+        },
       ],
     };
-  
+
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.open();
   };
-  
-  
+
   const handleDeleteProject = async () => {
     try {
       await axios.delete(`/projects/${currentProject._id}`);
-      navigate('/projects');
+      navigate("/projects");
       dispatch(deleteProjectSuccess());
     } catch (error) {
       console.log(error);
@@ -122,7 +163,9 @@ const Single = () => {
               <div className="editButton" onClick={() => setOpenProject(true)}>
                 Düzenle
               </div>
-              <div className="newButton"  onClick={handleDeleteProject}>Projeyi Kaldır</div>
+              <div className="newButton" onClick={handleDeleteProject}>
+                Projeyi Kaldır
+              </div>
               <h1 className="title">Bilgiler</h1>
               <div className="item">
                 <div className="details">
@@ -167,24 +210,30 @@ const Single = () => {
               </div>
               <div className="datatableTitle">
                 <div className="buttonContainer">
-                  <button
-                    onClick={() => setOpenPayments(true)}
-                    className="paymentButton"
-                  >
-                    Yeni ödeme ekle
-                  </button>
-                  <button
-                    onClick={() => setOpenCosts(true)}
-                    className="costButton"
-                  >
-                    Yeni maliyet ekle
-                  </button>
-                  <button
-                    className="pdfButton"
-                    onClick={() => generatePDF(currentProject)}
-                  >
-                    PDF Oluştur
-                  </button>
+                  <div className="firstRow">
+                    <button
+                      onClick={() => setOpenPayments(true)}
+                      className="paymentButton"
+                    >
+                      Yeni ödeme ekle
+                    </button>
+                    <button
+                      onClick={() => setOpenCosts(true)}
+                      className="costButton"
+                    >
+                      Yeni maliyet ekle
+                    </button>
+                    <button
+                      className="pdfButton"
+                      onClick={() => generatePDF(currentProject)}
+                    >
+                      Belge Oluştur
+                    </button>
+                  </div>
+                  <div className="secondRow">
+                    <button className="paymentButton">Yeni ödeme kategorisi ekle</button>
+                    <button className="costButton">Yeni maliyet kategorisi ekle</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -218,5 +267,3 @@ const Single = () => {
 };
 
 export default Single;
-
-
