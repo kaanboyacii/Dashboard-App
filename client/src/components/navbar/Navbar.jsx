@@ -8,12 +8,15 @@ import { useContext, useState } from "react";
 import { logout } from "../../redux/userSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const dispatchL = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleLogout = async (e) => {
     window.location.href = "/";
@@ -47,13 +50,50 @@ const Navbar = () => {
     setIsFullscreen(!isFullscreen);
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get("/projects/search", {
+        params: { q: searchQuery },
+      });
+      setSearchResults(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(e);
+    }
+  };
+
   return (
     <div className="navbar">
       <div className="wrapper">
-        <div className="search">
-          <input type="text" placeholder="Ara..." />
-          <SearchOutlinedIcon />
+        <div className="navbar">
+          <div className="wrapper">
+            <div className="search">
+              <input
+                type="text"
+                placeholder="Ara..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+              <SearchOutlinedIcon onClick={handleSearch} />
+
+            </div>
+              <div className="search-results">
+                {searchResults.map((project) => (
+                  <Link to={`/projects/${project._id}`} key={project._id}>
+                    <div>{project.title}</div>
+                  </Link>
+                ))}
+              </div>
+          </div>
         </div>
+
         <div className="items">
           <div className="item">
             <DarkModeOutlinedIcon
