@@ -33,8 +33,8 @@ const List = ({ type }) => {
             <TableCell className="tableCell">Durum</TableCell>
             <TableCell className="tableCell">Bakiye</TableCell>
             <TableCell className="tableCell">Kar</TableCell>
-            <TableCell className="tableCell">Son ödeme</TableCell>
             <TableCell className="tableCell">Son maliyet</TableCell>
+            <TableCell className="tableCell">Son ödeme</TableCell>
             <TableCell className="tableCell">Detay</TableCell>
           </TableRow>
         </TableHead>
