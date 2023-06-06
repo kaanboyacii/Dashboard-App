@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    InstagramUsername: {
+        type: String
+    },
 },
     { timestamps: true });
 
