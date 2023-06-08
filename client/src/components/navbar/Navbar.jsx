@@ -82,15 +82,14 @@ const Navbar = () => {
                 onKeyPress={handleKeyPress}
               />
               <SearchOutlinedIcon onClick={handleSearch} />
-
             </div>
-              <div className="search-results">
-                {searchResults.map((project) => (
-                  <Link to={`/projects/${project._id}`} key={project._id}>
-                    <div>{project.title}</div>
-                  </Link>
-                ))}
-              </div>
+            <div className="search-results">
+              {searchResults.map((project) => (
+                <Link to={`/projects/${project._id}`} key={project._id}>
+                  <div>{project.title}</div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -112,7 +111,9 @@ const Navbar = () => {
             <div className="counter">1</div>
           </div>
           <div className="item">
-            <img src={currentUser.img} alt="" className="avatar" />
+            <Link to={`/profile/${currentUser._id}`}>
+              <img src={currentUser.img} alt="" className="avatar" />
+            </Link>
           </div>
           <button className="logout-button" onClick={handleLogout}>
             Çıkış yap
