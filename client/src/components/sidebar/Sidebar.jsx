@@ -13,7 +13,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { logout } from "../../redux/userSlice.js";
 import LogoLight from "../../img/logolight.png";
@@ -23,6 +23,7 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const { darkMode } = useContext(DarkModeContext);
   const dispatchL = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleLogout = async (e) => {
     window.location.href = "/";
@@ -35,11 +36,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <img
-            className="logo"
-            src={darkMode ? LogoDark : LogoLight}
-            alt=""
-          />
+          <img className="logo" src={darkMode ? LogoDark : LogoLight} alt="" />
         </Link>
       </div>
       <hr />
@@ -92,10 +89,12 @@ const Sidebar = () => {
             <span>Ayarlar</span>
           </li>
           <p className="title">KULLANICI</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profil</span>
-          </li>
+          <Link to={`/profile/${currentUser._id}`} style={{ textDecoration: "none" }}>
+            <li>
+              <AccountCircleOutlinedIcon className="icon" />
+              <span>Profil</span>
+            </li>
+          </Link>
           <li onClick={handleLogout}>
             <ExitToAppIcon className="icon" />
             <span>Çıkış yap</span>
