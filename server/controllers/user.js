@@ -24,28 +24,43 @@ export const updateImg = async (req, res, next) => {
   };
   
 
-export const update = async (req, res, next) => {
+  export const update = async (req, res, next) => {
     if (req.params.id === req.user.id) {
-        try {
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync(req.body.password, salt);
-            const updatedUser = await User.findByIdAndUpdate(
-                req.params.id,
-                {
-                    $set: req.body,
-                    password: hash
-                },
-                { new: true }
-            );
-            res.status(200).json(updatedUser);
-        } catch (err) {
-            next(err);
+      try {
+        const { password, ...rest } = req.body;
+        let updatedUser;
+        
+        if (password) {
+          const salt = bcrypt.genSaltSync(10);
+          const hash = bcrypt.hashSync(password, salt);
+          updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: {
+                ...rest,
+                password: hash,
+              },
+            },
+            { new: true }
+          );
+        } else {
+          updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: rest },
+            { new: true }
+          );
         }
+        
+        res.status(200).json(updatedUser);
+      } catch (err) {
+        next(err);
+      }
     } else {
-        return next(createError(403, "You can update only your account!"));
+      return next(createError(403, "You can update only your account!"));
     }
-};
-
+  };
+  
+  
 export const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
         try {
