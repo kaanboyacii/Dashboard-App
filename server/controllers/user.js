@@ -4,32 +4,31 @@ import bcrypt from "bcrypt";
 
 export const updateImg = async (req, res, next) => {
     try {
-      const user = await User.findById(req.params.id);
-      if (!user) {
-        return next(createError(404, "User not found!"));
-      }
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: { img: req.body.img }, // update the user's img field with the new value
-        },
-        {
-          new: true,
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return next(createError(404, "User not found!"));
         }
-      );
-      res.status(200).json(updatedUser);
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: { img: req.body.img },
+            },
+            {
+                new: true,
+            }
+        );
+        res.status(200).json(updatedUser);
     } catch (err) {
-      next(err);
+        next(err);
     }
-  };
-  
+};
 
-  export const update = async (req, res, next) => {
+export const update = async (req, res, next) => {
     if (req.params.id === req.user.id) {
       try {
         const { password, ...rest } = req.body;
         let updatedUser;
-        
+  
         if (password) {
           const salt = bcrypt.genSaltSync(10);
           const hash = bcrypt.hashSync(password, salt);
@@ -50,7 +49,7 @@ export const updateImg = async (req, res, next) => {
             { new: true }
           );
         }
-        
+  
         res.status(200).json(updatedUser);
       } catch (err) {
         next(err);
@@ -59,7 +58,6 @@ export const updateImg = async (req, res, next) => {
       return next(createError(403, "You can update only your account!"));
     }
   };
-  
   
 export const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
