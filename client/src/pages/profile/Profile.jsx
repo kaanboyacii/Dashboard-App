@@ -40,9 +40,11 @@ const Profile = () => {
       console.error(error);
     }
   };
+
   const handleCancelClick = () => {
     setIsEditing(false);
   };
+
   return (
     <div className="profile">
       <Sidebar />
@@ -72,7 +74,6 @@ const Profile = () => {
                 <p>Şifre:</p>
                 <input
                   type="password"
-                  value={inputs}
                   onChange={handleChange}
                   className="inputField"
                   name="password"
