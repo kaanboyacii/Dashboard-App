@@ -8,15 +8,18 @@ import { Link } from "react-router-dom"
 const List = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      <Sidebar />
       <div className="listContainer">
-        <Navbar/>
-        <Table/>
+        <Navbar />
+        <div className="subListContainer">
+          <div className="listTitle">Projelerim</div>
+          <Table />
+        </div>
         <div className="addProjectButton">
-        <Link to={"/projects/new"}>
-          <button className="newProjectButton">Yeni Proje Ekle</button>
-        </Link>
-      </div>
+          <Link to={"/projects/new"}>
+            <button className="newProjectButton">Yeni Proje Ekle</button>
+          </Link>
+        </div>
       </div>
     </div>
   )
