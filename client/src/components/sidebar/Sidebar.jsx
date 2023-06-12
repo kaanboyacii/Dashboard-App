@@ -56,16 +56,18 @@ const Sidebar = () => {
               <span>Projeler</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/costs" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Maliyetler</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Ödemeler</span>
-          </li>
+          <Link to="/payments" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Ödemeler</span>
+            </li>
+          </Link>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Siparişler</span>
@@ -89,7 +91,10 @@ const Sidebar = () => {
             <span>Ayarlar</span>
           </li>
           <p className="title">KULLANICI</p>
-          <Link to={`/profile/${currentUser._id}`} style={{ textDecoration: "none" }}>
+          <Link
+            to={`/profile/${currentUser._id}`}
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <AccountCircleOutlinedIcon className="icon" />
               <span>Profil</span>

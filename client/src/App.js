@@ -3,6 +3,8 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
+import Costs from "./pages/costs/Costs";
+import Payments from "./pages/payments/Payments";
 import New from "./pages/new/New";
 import Profile from "./pages/profile/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -28,6 +30,8 @@ function App() {
             <Route path="/">
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="costs" element={<Costs />} />
               <Route path="projects">
                 <Route index element={<List />} />
                 <Route path=":id" element={<Single />} />
