@@ -44,13 +44,13 @@ const List = ({ type }) => {
               <TableCell className="tableCell">{project.title}</TableCell>
               <TableCell className="tableCell">{project.desc}</TableCell>
               <TableCell className="tableCell">{project.status}</TableCell>
-              <TableCell className="tableCell">{project.balance} ₺</TableCell>
-              <TableCell className="tableCell">{project.earning} ₺</TableCell>
+              <TableCell className="tableCell">{project.balance.toLocaleString()} ₺</TableCell>
+              <TableCell className="tableCell">{project.earning.toLocaleString()} ₺</TableCell>
               <TableCell className="tableCell">
                 {project.costs.slice(-1).map((cost) => (
                   <div key={cost.title}>
                     <p>Başlık: {cost.title}</p>
-                    <p>Miktar: {cost.amount} ₺</p>
+                    <p>Miktar: {cost.amount.toLocaleString()} ₺</p>
                   </div>
                 ))}
               </TableCell>
@@ -58,7 +58,7 @@ const List = ({ type }) => {
                 {project.payments.slice(-1).map((payment) => (
                   <div key={payment.title}>
                     <p>Başlık: {payment.title}</p>
-                    <p>Miktar: {payment.amount} ₺</p>
+                    <p>Miktar: {payment.amount.toLocaleString()} ₺</p>
                   </div>
                 ))}
               </TableCell>
