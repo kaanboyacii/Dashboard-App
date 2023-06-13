@@ -1,9 +1,18 @@
+// userSlice.js
+
 import { createSlice } from "@reduxjs/toolkit";
+
+const STORAGE_KEY = "user";
 
 const initialState = {
   currentUser: null,
   loading: false,
   error: false,
+};
+
+const loadUserFromStorage = () => {
+  const storedUser = localStorage.getItem(STORAGE_KEY);
+  return storedUser ? JSON.parse(storedUser) : null;
 };
 
 export const userSlice = createSlice({
@@ -16,6 +25,7 @@ export const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(action.payload));
     },
     loginFailure: (state) => {
       state.loading = false;
@@ -25,6 +35,7 @@ export const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = false;
+      localStorage.removeItem(STORAGE_KEY);
     },
     register: (state) => {
       state.currentUser = null;
@@ -34,6 +45,7 @@ export const userSlice = createSlice({
     registerSuccess: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(action.payload));
     },
     registerFailure: (state) => {
       state.loading = false;
@@ -41,6 +53,7 @@ export const userSlice = createSlice({
     },
     updateUser: (state, action) => {
       state.currentUser = action.payload;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(action.payload));
     },
   },
 });
@@ -57,3 +70,4 @@ export const {
 } = userSlice.actions;
 
 export default userSlice.reducer;
+
