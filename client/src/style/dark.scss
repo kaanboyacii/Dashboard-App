@@ -50,7 +50,7 @@
       padding: 0.5rem 1rem;
       background-color: transparent;
       color: #fff;
-      border: 1px solid #82C3EC;
+      border: 1px solid #82c3ec;
       border-radius: 10px;
       text-transform: uppercase;
       letter-spacing: 0.1rem;
@@ -66,10 +66,10 @@
     .logout-button {
       @extend .button;
       background-color: #1d1b1b;
-      color: #82C3EC;
+      color: #82c3ec;
 
       &:hover {
-        background-color: #82C3EC;
+        background-color: #82c3ec;
         color: #1d1b1b;
       }
     }
@@ -95,12 +95,49 @@
         }
 
         .icon {
-          color: #82C3EC;
+          color: #82c3ec;
         }
       }
     }
   }
+  .profile {
+    .profileContainer {
+      flex: 6;
 
+      .top {
+        padding: 20px;
+        display: flex;
+        gap: 20px;
+
+        .left {
+          h1 {
+            font-size: 28px;
+            color: #82c3ec;
+            margin-bottom: 20px;
+          }
+          .currentUserDetails {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            p {
+              font-size: 18px;
+              color: #82c3ec;
+              margin: 10px 10px 10px 10px;
+            }
+          }
+          .inputField {
+            width: 80%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #82c3ec;
+          }
+        }
+      }
+    }
+  }
   input {
     background-color: transparent;
   }

@@ -86,7 +86,7 @@ const Datatable = ({ type }) => {
       id: payment._id || index, // payment._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: payment.title,
       category: payment.category,
-      amount: payment.amount + " ₺",
+      amount: payment.amount.toLocaleString() + " ₺",
       date: new Date(payment.date).toLocaleDateString(),
     }));
   } else if (type === "costs" && currentProject) {
@@ -94,7 +94,7 @@ const Datatable = ({ type }) => {
       id: cost._id || index, // cost._id mevcutsa kullan, değilse bir indeks değeri kullan
       title: cost.title,
       category: cost.category,
-      amount: cost.amount + " ₺",
+      amount: cost.amount.toLocaleString() + " ₺",
       date: new Date(cost.date).toLocaleDateString(),
     }));
   }
