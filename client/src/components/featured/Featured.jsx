@@ -11,7 +11,10 @@ import { Link } from "react-router-dom";
 
 const Featured = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const [totalPayments, setTotalPayments] = useState(0);
+  const [totalCosts, setTotalCosts] = useState(0);
   const [totalEarning, setTotalEarning] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -21,12 +24,30 @@ const Featured = () => {
         );
         const projects = response.data;
 
-        let total = 0;
+        let totalPayments = 0;
         projects.forEach((project) => {
-          total += project.earning;
+          totalPayments += project.totalPayments;
         });
 
-        setTotalEarning(total);
+        let totalEarning = 0;
+        projects.forEach((project) => {
+          totalEarning += project.earning;
+        });
+
+        let totalBalance = 0;
+        projects.forEach((project) => {
+          totalBalance += project.balance;
+        });
+        
+        let totalCosts = 0;
+        projects.forEach((project) => {
+          totalCosts += project.totalCosts;
+        });
+
+        setTotalEarning(totalEarning);
+        setTotalBalance(totalBalance);
+        setTotalPayments(totalPayments);
+        setTotalCosts(totalCosts);
       } catch (error) {
         console.log(error);
       }
@@ -44,31 +65,31 @@ const Featured = () => {
         <div className="featuredChart">
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
         </div>
-        <p className="title">Haftalık toplam gelir</p>
-        <p className="amount">{totalEarning.toLocaleString()} ₺</p>
-        <p className="desc">
-          Bu değer toplam kar zararı gösterir
-        </p>
+        <p className="title">Toplam gelir</p>
+        <p className="amount">{totalPayments.toLocaleString()} ₺</p>
+        <p className="desc">Bu değer toplam kar zararı gösterir</p>
         <div className="summary">
           <div className="item">
-            <div className="itemTitle">Target</div>
-            <div className="itemResult negative">
-              <KeyboardArrowDownIcon fontSize="small" />
-              <div className="resultAmount">$12.5k</div>
+            <div className="itemTitle">Toplam Kar</div>
+            <div className="itemResult">
+              <KeyboardArrowUpOutlinedIcon fontSize="small" />
+              <div className="resultAmount">{totalEarning.toLocaleString()} ₺</div>
             </div>
           </div>
           <div className="item">
-            <div className="itemTitle">Last Week</div>
-            <div className="itemResult positive">
+            <div className="itemTitle">Toplam Bakiye</div>
+            <div className="itemResult">
               <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="resultAmount">$2.7k</div>
+              <div className="resultAmount">
+                {totalBalance.toLocaleString()} ₺
+              </div>
             </div>
           </div>
           <div className="item">
-            <div className="itemTitle">Last Month</div>
-            <div className="itemResult positive">
+            <div className="itemTitle">Toplam Gider</div>
+            <div className="itemResult">
               <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="resultAmount">$15.1k</div>
+              <div className="resultAmount">{totalCosts.toLocaleString()} ₺</div>
             </div>
           </div>
         </div>
