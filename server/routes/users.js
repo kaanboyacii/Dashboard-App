@@ -5,7 +5,7 @@ import {
     getUser,
     updateImg,
 } from "../controllers/user.js";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../utility/verifyToken.js";
 
 const router = express.Router();
 

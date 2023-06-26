@@ -1,4 +1,4 @@
-import { createError } from "../error.js";
+import { createError } from "../utility/error.js";
 import User from "../models/User.js"
 import Project from "../models/Project.js";
 
