@@ -1,7 +1,6 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
@@ -29,7 +28,6 @@ const Sidebar = () => {
     window.location.href = "/";
     e.preventDefault();
     dispatchL(logout());
-    const res = await axios.post("/auth/logout");
   };
 
   return (
@@ -68,10 +66,6 @@ const Sidebar = () => {
               <span>Ödemeler</span>
             </li>
           </Link>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Siparişler</span>
-          </li>
           <p className="title">KULLANIM</p>
           <li>
             <InsertChartIcon className="icon" />
