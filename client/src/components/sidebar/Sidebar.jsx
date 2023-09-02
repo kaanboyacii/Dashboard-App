@@ -6,8 +6,6 @@ import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -74,15 +72,6 @@ const Sidebar = () => {
           <li>
             <NotificationsNoneIcon className="icon" />
             <span>Bildirimler</span>
-          </li>
-          <p className="title">SERVİS</p>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Kayıtlar</span>
-          </li>
-          <li>
-            <SettingsIcon className="icon" />
-            <span>Ayarlar</span>
           </li>
           <p className="title">KULLANICI</p>
           <Link
