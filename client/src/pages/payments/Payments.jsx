@@ -1,4 +1,3 @@
-import "./payments.scss"
 import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -37,18 +36,18 @@ const Payments = () => {
         <div className="subListContainer">
           <div className="listTitle">Tüm Ödemeler</div>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }} aria-label="simple table" className="custom-row-head">
               <TableHead>
                 <TableRow>
-                  <TableCell>Başlık</TableCell>
-                  <TableCell>Miktar</TableCell>
+                  <TableCell className="custom-cell-head">Başlık</TableCell>
+                  <TableCell className="custom-cell-head">Miktar</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {payments.map((payment) => (
-                  <TableRow key={payment.title}>
-                    <TableCell>{payment.title}</TableCell>
-                    <TableCell>{payment.amount.toLocaleString()} ₺</TableCell>
+                  <TableRow key={payment.title} className="custom-row">
+                    <TableCell className="custom-cell">{payment.title}</TableCell>
+                    <TableCell className="custom-cell">{payment.amount.toLocaleString()} ₺</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

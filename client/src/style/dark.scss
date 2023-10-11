@@ -5,7 +5,6 @@
   .chartGrid {
     stroke: #82c3ec;
   }
-
   .table {
     background-color: #1d1b1b;
     .tableCell {
@@ -41,7 +40,6 @@
   .navbar {
     color: #999;
     border-color: #333;
-
     .search {
       border-color: gray;
     }
@@ -74,11 +72,9 @@
       }
     }
   }
-
   .sidebar {
     background-color: #1d1b1b;
     border-color: #333;
-
     .top {
       .logo {
         color: #4b56d2;
@@ -103,7 +99,6 @@
   .profile {
     .profileContainer {
       flex: 6;
-
       .top {
         padding: 20px;
         display: flex;
@@ -141,31 +136,44 @@
   .cardStatistics {
     background-color: #1d1b1b;
     border: 1px solid #e1e4e8;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    padding: 16px;
+    border-radius: 10px;
+    border-color: #333;
+  }
+  .list {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 16px;
-  
-    .cardStatistics-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  
-    .cardStatistics-value {
-      font-size: 24px;
-      font-weight: 700;
-      margin: 8px 0;
-    }
-  
-    .cardStatistics-description {
-      font-size: 14px;
-      color: #007aff;
-      cursor: pointer;
+    width: 100%;
+    .listContainer {
+      flex: 6;
+      .subListContainer {
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+        padding: 20px;
+        margin: 20px;
+        .listTitle {
+          font-weight: 500;
+          color: gray;
+          margin-bottom: 15px;
+        }
+        .custom-row {
+          background-color: #1d1b1b; 
+          &:hover {
+            background-color: #494545;
+          }
+        }
+        .custom-cell {
+          color: #fff; 
+        }
+        .custom-row-head {
+          background-color: #494545; 
+        }
+        .custom-cell-head {
+          color: #fff; 
+        }
+      }
     }
   }
+  
+  
   
   input {
     background-color: transparent;

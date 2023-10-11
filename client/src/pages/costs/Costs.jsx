@@ -37,18 +37,18 @@ const Costs = () => {
         <div className="subListContainer">
           <div className="listTitle">Tüm Maliyetler</div>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }} aria-label="simple table" className="custom-row-head">
               <TableHead>
                 <TableRow>
-                  <TableCell>Başlık</TableCell>
-                  <TableCell>Miktar</TableCell>
+                  <TableCell className="custom-cell-head">Başlık</TableCell>
+                  <TableCell className="custom-cell-head">Miktar</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {costs.map((cost) => (
-                  <TableRow key={cost.title}>
-                    <TableCell>{cost.title}</TableCell>
-                    <TableCell>{cost.amount.toLocaleString()} ₺</TableCell>
+                  <TableRow key={cost.title} className="custom-row">
+                    <TableCell className="custom-cell">{cost.title}</TableCell>
+                    <TableCell className="custom-cell">{cost.amount.toLocaleString()} ₺</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
