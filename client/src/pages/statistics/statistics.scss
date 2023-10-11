@@ -1,0 +1,56 @@
+/* Add this SCSS code to your statistics.scss file */
+
+.list {
+    display: flex;
+    height: 100%;
+  }
+  
+  .listContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .subListContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  .listTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  
+    .card-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 8px 0;
+    }
+  
+    .card-description {
+      font-size: 14px;
+      color: #007aff;
+      cursor: pointer;
+    }
+  
+    /* Add styles for icons here */
+  }
+  
