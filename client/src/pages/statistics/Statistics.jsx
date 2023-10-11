@@ -36,25 +36,25 @@ const Statistics = () => {
         <Navbar />
         <div className="subListContainer">
           <div className="listTitle">Tüm İstatistikler</div>
-          <div className="card">
-            <div className="card-title">Total Projects</div>
-            <div className="card-value">{projects.length}</div>
+          <div className="cardStatistics">
+            <div className="cardStatistics-title">PROJE SAYISI</div>
+            <div className="cardStatistics-value">{projects.length}</div>
             <Link to="/projects">
-              <div className="card-description">Detayları gör</div>
+              <div className="cardStatistics-description">Detayları gör</div>
             </Link>
           </div>
-          <div className="card">
-            <div className="card-title">GENEL KAR</div>
-            <div className="card-value">{totalEarning.toLocaleString()}</div>
+          <div className="cardStatistics">
+            <div className="cardStatistics-title">GENEL KAR</div>
+            <div className="cardStatistics-value">{totalEarning.toLocaleString()}</div>
             <Link to="/earning">
-              <div className="card-description">Detayları gör</div>
+              <div className="cardStatistics-description">Detayları gör</div>
             </Link>
           </div>
-          <div className="card">
-            <div className="card-title">GENEL BAKİYE</div>
-            <div className="card-value">{totalBalance.toLocaleString()}</div>
+          <div className="cardStatistics">
+            <div className="cardStatistics-title">GENEL BAKİYE</div>
+            <div className="cardStatistics-value">{totalBalance.toLocaleString()}</div>
             <Link to="/balance">
-              <div className="card-description">Detayları gör</div>
+              <div className="cardStatistics-description">Detayları gör</div>
             </Link>
           </div>
         </div>
