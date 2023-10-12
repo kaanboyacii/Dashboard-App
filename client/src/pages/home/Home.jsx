@@ -10,8 +10,9 @@ import Table from "../../components/table/Table";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [projects, setProjects] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
+  const [projects, setProjects] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -19,9 +20,17 @@ const Home = () => {
       setProjects(res.data);
     };
     fetchProjects();
+    const fetchOrders = async () => {
+      const res = await axios.get(`/orders/findByUser/${currentUser._id}`);
+      setOrders(res.data);
+    };
+    fetchOrders();
   }, []);
 
   const projectLength = projects.length;
+  const ordersLength = orders.length;
+
+  // Project işlemleri
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
@@ -31,13 +40,24 @@ const Home = () => {
   ).length;
 
   const currentProjects = projects.length;
-
-  const diffPercentage =
+  //PROJECTS
+  const diffPercentageProjects =
     yesterdayProjects !== 0
       ? (
           ((currentProjects - yesterdayProjects) / yesterdayProjects) *
           100
         ).toFixed(2)
+      : 0;
+  //ORDERS
+  const yesterdayOrders = orders.filter(
+    (order) => new Date(order.createdAt) <= yesterday
+  ).length;
+
+  const currentOrders = orders.length;
+
+  const diffPercentageOrders =
+    yesterdayOrders !== 0
+      ? (((currentOrders - yesterdayOrders) / yesterdayOrders) * 100).toFixed(2)
       : 0;
 
   return (
@@ -46,8 +66,16 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="user" amount={projectLength} diff={diffPercentage} />
-          <Widget type="order" />
+          <Widget
+            type="user"
+            amount={projectLength}
+            diff={diffPercentageProjects}
+          />
+          <Widget
+            type="order"
+            amount={ordersLength}
+            diff={diffPercentageOrders}
+          />
           <Widget type="earning" diff={0} />
           <Widget type="balance" diff={0} />
         </div>

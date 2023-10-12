@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/", verifyToken, getAllOrder)
 router.post("/", verifyToken, addOrder)
 router.delete("/:id", verifyToken, deleteOrder)
-router.get("/findByUser/:userId", getOrdersByUserId)
+router.get("/findByUser/:userId", verifyToken, getOrdersByUserId)
 
 export default router;
