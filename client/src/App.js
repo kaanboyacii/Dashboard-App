@@ -6,6 +6,7 @@ import Single from "./pages/single/Single";
 import Costs from "./pages/costs/Costs";
 import Payments from "./pages/payments/Payments";
 import Statistics from "./pages/statistics/Statistics";
+import Orders from "./pages/orders/Orders";
 import New from "./pages/new/New";
 import Profile from "./pages/profile/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -34,6 +35,7 @@ function App() {
               <Route path="payments" element={<Payments />} />
               <Route path="costs" element={<Costs />} />
               <Route path="statistics" element={<Statistics />} />
+              <Route path="orders" element={<Orders />} />
               <Route path="projects">
                 <Route index element={<List />} />
                 <Route path=":id" element={<Single />} />
