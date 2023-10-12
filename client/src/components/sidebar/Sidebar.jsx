@@ -7,11 +7,11 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { logout } from "../../redux/userSlice.js";
 import LogoLight from "../../img/logolight.png";
 import LogoDark from "../../img/logodark.png";
@@ -62,6 +62,12 @@ const Sidebar = () => {
             <li>
               <CreditCardIcon className="icon" />
               <span>Ödemeler</span>
+            </li>
+          </Link>
+          <Link to="/orders" style={{ textDecoration: "none" }}>
+            <li>
+              <LowPriorityIcon className="icon" />
+              <span>Şiparişler</span>
             </li>
           </Link>
           <p className="title">KULLANIM</p>
