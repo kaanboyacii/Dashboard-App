@@ -54,6 +54,11 @@ const Orders = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className="addOrderButton">
+          <Link to={"/orders/new"}>
+            <button className="newOrderButton">Yeni Sipariş Ekle</button>
+          </Link>
+        </div>
       </div>
     </div>
   </div>
