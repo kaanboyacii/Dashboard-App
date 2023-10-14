@@ -13,6 +13,16 @@
         color: gray;
         margin-bottom: 15px;
       }
+      /* your-css-file.css */
+      .delete-icon {
+        cursor: pointer;
+        transition: transform 0.3s, color 0.3s; 
+      }
+      .delete-icon:hover {
+        color: red;
+        transform: scale(1.2); 
+      }
+
       .addOrderButton {
         margin: 30px 1px 1px 1px;
         .newOrderButton {
