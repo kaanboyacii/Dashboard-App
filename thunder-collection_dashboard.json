@@ -1,0 +1,305 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "dashboard",
+    "collectionId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+    "dateExported": "2024-07-10T13:18:51.146Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "2045f014-2955-4268-82b0-3c91b73d0c0f",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2023-05-09T18:04:30.914Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "060130c1-4f05-49bd-830f-045fe2dd4cf1",
+            "name": "User",
+            "containerId": "",
+            "created": "2023-05-09T18:06:05.348Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Project",
+            "containerId": "",
+            "created": "2023-05-09T20:00:36.822Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "49874717-6618-4619-9770-b3ff8975a167",
+            "name": "Order",
+            "containerId": "",
+            "created": "2023-10-12T09:08:33.495Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "fed51252-8ced-4a79-b630-3393885db005",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "2045f014-2955-4268-82b0-3c91b73d0c0f",
+            "name": "sign in",
+            "url": "http://localhost:8800/api/auth/signin",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-05-09T18:04:46.897Z",
+            "modified": "2023-06-06T09:17:01.924Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"kaan@gmail.com\",\n  \"password\":\"123456\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1994f77a-cf2a-42a0-a3a3-b773274956c8",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "2045f014-2955-4268-82b0-3c91b73d0c0f",
+            "name": "sign up",
+            "url": "http://localhost:8800/api/auth/signup",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-05-09T18:05:37.346Z",
+            "modified": "2023-06-06T09:29:26.955Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"kaan2\",\n  \"email\":\"kaan2@gmail.com\",\n  \"password\":\"123456\",\n  \"InstagramUsername\":\"kaan.boyacii\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e1332940-2c88-4b36-8af4-4b2853d09153",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "060130c1-4f05-49bd-830f-045fe2dd4cf1",
+            "name": "Find user",
+            "url": "http://localhost:8800/api/users/find/645a8a80ae430e6677a40f04",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-05-09T18:06:21.130Z",
+            "modified": "2023-05-09T18:06:36.439Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c3f6e529-3f4a-4f9c-954a-e44bc19cc1d0",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "060130c1-4f05-49bd-830f-045fe2dd4cf1",
+            "name": "Update user",
+            "url": "http://localhost:8800/api/users/645a8a80ae430e6677a40f04",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-05-09T18:06:51.274Z",
+            "modified": "2023-06-12T16:51:35.325Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"password\": \"123456\",\n  \"salt\": \"randomSaltValue\",\n  \"InstagramUsername\": \"izmarket35\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "02c55539-e15c-4f9d-aa6c-f58160da0816",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Add project",
+            "url": "http://localhost:8800/api/projects",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-05-09T20:00:59.611Z",
+            "modified": "2023-05-11T09:29:48.697Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\": \"12345672892\",\n  \"title\": \"Yalınayak Dağ evi\",\n  \"desc\": \"Yalınayak\",\n  \"status\": \"Yıkım aşamasında\",\n  \"costs\": [\n    {\n      \"title\": \"Mobilya imalat\",\n      \"amount\": 30000,\n      \"date\": \"2023-05-11T12:00:00.000Z\"\n    },\n    {\n      \"title\": \"Nisan maaşlar\",\n      \"amount\": 55000,\n      \"date\": \"2023-05-11T12:00:00.000Z\"\n    }\n  ],\n  \"payments\": [\n  {\n      \"title\": \"Avans\",\n      \"amount\": 10000,\n      \"date\": \"2023-05-11T12:00:00.000Z\"\n    },\n    {\n      \"title\": \"Mobilya\",\n      \"amount\": 45000,\n      \"date\": \"2023-05-11T12:00:00.000Z\"\n    }\n  ]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5ae06f3e-0e1a-479c-8f0d-1b7279b7ca31",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Update project",
+            "url": "http://localhost:8800/api/projects/645cb58c6e25ce27ce26a577",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2023-05-09T20:16:57.677Z",
+            "modified": "2023-05-14T08:20:10.789Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n   \"status\": \"Boyama Aşamasında\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ada662db-c8a5-45a8-9c51-98cb1c16a442",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Get project",
+            "url": "http://localhost:8800/api/projects/find/645aa832ed67d305af8dbc5c",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-05-09T20:21:44.004Z",
+            "modified": "2023-05-09T20:22:08.267Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "08cc213a-d3c6-4006-a20a-d0ae4da0ed96",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Get random project",
+            "url": "http://localhost:8800/api/projects/random",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-05-09T20:26:07.406Z",
+            "modified": "2023-05-09T20:26:31.660Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e747c477-93aa-4f73-bc8d-99f2968048dd",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Get all projects",
+            "url": "http://localhost:8800/api/projects/",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2023-05-09T20:27:09.375Z",
+            "modified": "2023-05-09T20:27:19.028Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bb7bc50a-8d25-48e1-97d2-0251afa551c5",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "Delete payment or cost in project",
+            "url": "http://localhost:8800/api/projects/64634f03198e019d9bef300c/costs/6464f4865f19ced47a05d242",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2023-05-17T15:16:57.745Z",
+            "modified": "2023-05-17T15:37:23.909Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7b06aa02-511b-45cf-a31b-d786a4bee455",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "delete project",
+            "url": "http://localhost:8800/api/projects/645dec8dadd33623f914b00a",
+            "method": "DELETE",
+            "sortNum": 110000,
+            "created": "2023-05-20T09:05:02.720Z",
+            "modified": "2023-05-20T09:21:21.325Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "de2afaab-7436-4303-bed3-854a21afe9fc",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "add paymentsCategory",
+            "url": "http://localhost:8800/api/projects/add-payments-category/645aa832ed67d305af8dbc5c",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2023-05-23T07:47:50.276Z",
+            "modified": "2023-05-23T08:06:43.115Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category\": \"Vergi\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "062a713f-457b-49d6-ac84-5f6ad1899035",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "f7905cc7-1a6c-4fae-8833-41d7bbb5a26e",
+            "name": "search",
+            "url": "http://localhost:8800/api/projects/search?q=a",
+            "method": "GET",
+            "sortNum": 130000,
+            "created": "2023-06-04T13:58:22.629Z",
+            "modified": "2023-06-04T13:59:11.116Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "q",
+                    "value": "a",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "32483eae-5a72-47c1-aa91-3ca7602d39c4",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "060130c1-4f05-49bd-830f-045fe2dd4cf1",
+            "name": "get user",
+            "url": "http://localhost:8800/api/users/find/645a8a80ae430e6677a40f04",
+            "method": "GET",
+            "sortNum": 140000,
+            "created": "2023-06-06T09:41:40.416Z",
+            "modified": "2023-06-06T09:42:06.951Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "934e3bbf-6b4b-45de-9e84-5ebca9919275",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "49874717-6618-4619-9770-b3ff8975a167",
+            "name": "add order",
+            "url": "http://localhost:8800/api/orders",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-10-12T09:08:45.199Z",
+            "modified": "2023-10-12T09:25:57.357Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\": \"645a8a80ae430e6677a40f04\",\n  \"title\": \"Necla Apartmanı Tadilat\",\n  \"desc\": \"Necla Apartmanı Tadilat\",\n  \"status\": \"Sırada\",\n  \"contact\": \"05524789965\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "74a6aff8-c994-4c6f-8dff-372d231f9d54",
+            "colId": "cafb2793-6c39-4f0f-b464-53e21a118229",
+            "containerId": "49874717-6618-4619-9770-b3ff8975a167",
+            "name": "get order by userıd",
+            "url": "http://localhost:8800/api/orders/findByUser/645a8a80ae430e6677a40f04",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2023-10-12T09:15:06.691Z",
+            "modified": "2023-10-12T09:15:54.880Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "ref": "EhNpElQq49ohAevAYt5OuTXJ6LKX16kw8gs6LqCPOPAS5YfBFUWaNHkr6kNmdDNEYV_Lzxvq5usN1g21cX3iHA"
+}
