@@ -54,13 +54,11 @@ export const signin = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: "Geçersiz token" });
-      }
-      return res.status(200).json({ message: "Başarıyla çıkış yapıldı" });
-    });
+    const token = req.cookies.access_token;
+    if (!token) {
+      return res.status(401).json({ message: "Oturum bulunamadı" });
+    }
+    res.clearCookie("access_token").status(200).json({ message: "Başarıyla çıkış yapıldı" });
   } catch (err) {
     next(err);
   }

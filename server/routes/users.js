@@ -3,14 +3,10 @@ import {
     update,
     deleteUser,
     getUser,
-    updateImg,
 } from "../controllers/user.js";
 import { verifyToken } from "../utility/verifyToken.js";
 
 const router = express.Router();
-
-//update user's image
-router.put("/updateImg/:id", verifyToken, updateImg);
 
 //update user
 router.put("/:id", verifyToken, update);
@@ -19,6 +15,6 @@ router.put("/:id", verifyToken, update);
 router.delete("/:id", verifyToken, deleteUser);
 
 //get a user
-router.get("/find/:id",verifyToken, getUser);
+router.get("/find/:id", getUser);
 
 export default router;
