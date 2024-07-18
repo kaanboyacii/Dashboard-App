@@ -5,6 +5,10 @@ import UserRoutes from "./routes/users.js"
 import AuthRoutes from "./routes/auth.js"
 import ProjectRoutes from "./routes/projects.js"
 import OrderRoutes from "./routes/orders.js"
+import CostRoutes from "./routes/costs.js";
+import PaymentRoutes from "./routes/payments.js";
+import CostCategoryRoutes from "./routes/costCategories.js";
+import PaymentCategoryRoutes from "./routes/paymentCategories.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -29,6 +33,10 @@ app.use("/api/auth",AuthRoutes);
 app.use("/api/users",UserRoutes);
 app.use("/api/projects",ProjectRoutes);
 app.use("/api/orders",OrderRoutes);
+app.use("/api/costs", CostRoutes);
+app.use("/api/payments", PaymentRoutes);
+app.use("/api/cost-category", CostCategoryRoutes);
+app.use("/api/payment-category", PaymentCategoryRoutes);
 
 
 app.use((err, req, res, next)=>{
