@@ -11,7 +11,8 @@ const CostSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CostCategory",
     required: true,
   },
   amount: {

@@ -1,10 +1,16 @@
 import Cost from "../models/Cost.js";
 import Project from "../models/Project.js";
+import CostCategory from "../models/CostCategory.js";
+import createError from "http-errors";
 
 // Cost ekleme
 export const addCost = async (req, res, next) => {
   const { projectId, title, category, amount, date } = req.body;
   try {
+    const costCategory = await CostCategory.findById(category);
+    if (!costCategory) {
+      return next(createError(404, "Geçersiz gider kategorisi."));
+    }
     const newCost = new Cost({
       projectId,
       title,
@@ -13,11 +19,9 @@ export const addCost = async (req, res, next) => {
       date,
     });
     const savedCost = await newCost.save();
-
     await Project.findByIdAndUpdate(projectId, {
       $push: { costs: savedCost._id },
     });
-
     res.status(201).json(savedCost);
   } catch (err) {
     next(err);

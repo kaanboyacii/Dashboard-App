@@ -11,7 +11,8 @@ const PaymentSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "PaymentCategory",
     required: true,
   },
   amount: {

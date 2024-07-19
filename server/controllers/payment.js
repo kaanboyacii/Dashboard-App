@@ -1,10 +1,16 @@
 import Payment from "../models/Payment.js";
 import Project from "../models/Project.js";
+import PaymentCategory from "../models/PaymentCategory.js";
+import createError from "http-errors";
 
 // Payment ekleme
 export const addPayment = async (req, res, next) => {
   const { projectId, title, category, amount, date } = req.body;
   try {
+    const paymentCategory = await PaymentCategory.findById(category);
+    if (!paymentCategory) {
+      return next(createError(404, "Geçersiz ödeme kategorisi."));
+    }
     const newPayment = new Payment({
       projectId,
       title,
@@ -13,11 +19,9 @@ export const addPayment = async (req, res, next) => {
       date,
     });
     const savedPayment = await newPayment.save();
-
     await Project.findByIdAndUpdate(projectId, {
       $push: { payments: savedPayment._id },
     });
-
     res.status(201).json(savedPayment);
   } catch (err) {
     next(err);
