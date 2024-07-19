@@ -20,6 +20,9 @@ const ProjectSchema = new mongoose.Schema({
   contact: {
     type: String,
   },
+  profitRate: {
+    type: Number,
+  },
   balance: {
     type: Number,
     default: 0,
