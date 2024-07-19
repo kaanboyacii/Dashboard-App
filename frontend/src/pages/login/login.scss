@@ -1,0 +1,84 @@
+@import "../../styles/color.scss";
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, $gradient-start, $gradient-end);
+
+  .wrapper {
+    background-color: $background-color;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    width: 350px;
+    animation: slideIn 0.5s ease;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      padding: 0 2rem 2rem 2rem;
+
+      .input {
+        background-color: $input-background;
+        border: none;
+        border-radius: 5px;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: $text-color;
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .button {
+        background-color: $primary-color;
+        color: $background-color;
+        border: none;
+        border-radius: 5px;
+        padding: 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $button-hover;
+            transition: all 0.2s ease-in-out;
+        }
+      }
+
+      .error {
+        color: $error-color;
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    .title,
+    .subTitle {
+      font-size: 2rem;
+      color: $text-color;
+      text-align: center;
+      margin: 1rem 0;
+
+      &.subTitle {
+        font-size: 1rem;
+      }
+    }
+  }
+}
