@@ -19,9 +19,15 @@ export const addCost = async (req, res, next) => {
       date,
     });
     const savedCost = await newCost.save();
-    await Project.findByIdAndUpdate(projectId, {
-      $push: { costs: savedCost._id },
-    });
+
+    // Projeyi güncelle
+    const project = await Project.findById(projectId);
+    project.costs.push(savedCost._id);
+    project.totalCosts += amount;
+    project.balance = project.totalCosts - project.totalPayments;
+    project.earning = project.totalPayments - project.totalCosts;
+    await project.save();
+
     res.status(201).json(savedCost);
   } catch (err) {
     next(err);
@@ -33,6 +39,13 @@ export const updateCost = async (req, res, next) => {
   const { id } = req.params;
   const { title, category, amount, date } = req.body;
   try {
+    const cost = await Cost.findById(id);
+    if (!cost) {
+      return res.status(404).json({ success: false, message: "Cost not found" });
+    }
+
+    const oldAmount = cost.amount;
+
     const updatedCost = await Cost.findByIdAndUpdate(
       id,
       {
@@ -44,9 +57,12 @@ export const updateCost = async (req, res, next) => {
       { new: true }
     );
 
-    if (!updatedCost) {
-      return res.status(404).json({ success: false, message: "Cost not found" });
-    }
+    // Projeyi güncelle
+    const project = await Project.findById(cost.projectId);
+    project.totalCosts = project.totalCosts - oldAmount + amount;
+    project.balance = project.totalCosts - project.totalPayments;
+    project.earning = project.totalPayments - project.totalCosts;
+    await project.save();
 
     res.status(200).json(updatedCost);
   } catch (err) {
@@ -64,9 +80,13 @@ export const deleteCost = async (req, res, next) => {
       return res.status(404).json({ success: false, message: "Cost not found" });
     }
 
-    await Project.findByIdAndUpdate(deletedCost.projectId, {
-      $pull: { costs: deletedCost._id },
-    });
+    // Projeyi güncelle
+    const project = await Project.findById(deletedCost.projectId);
+    project.costs.pull(deletedCost._id);
+    project.totalCosts -= deletedCost.amount;
+    project.balance = project.totalCosts - project.totalPayments;
+    project.earning = project.totalPayments - project.totalCosts;
+    await project.save();
 
     res.status(200).json({ success: true, message: "Cost deleted successfully" });
   } catch (err) {

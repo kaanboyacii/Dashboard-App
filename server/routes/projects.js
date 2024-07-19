@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.post("/", createProject);
-router.get("/:userId", getAllProjectsByUserId);
+router.get("/user/:userId", getAllProjectsByUserId);
 router.get("/project/:id", getProjectById);
 router.put("/:id", updateProject);
 router.delete("/:id", deleteProject);
