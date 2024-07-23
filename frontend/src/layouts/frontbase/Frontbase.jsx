@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText, CssBaseline } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText, CssBaseline } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
   Dashboard as DashboardIcon,
@@ -12,6 +12,7 @@ import {
   AccountCircleOutlined as AccountCircleOutlinedIcon,
   ExitToApp as ExitToAppIcon
 } from '@mui/icons-material';
+import Logo from "../../images/logo.jpg"
 import './frontbase.scss';
 
 const Frontbase = ({ children }) => {
@@ -19,6 +20,9 @@ const Frontbase = ({ children }) => {
     <div className="frontbase-container">
       <CssBaseline />
       <aside className="sidebar">
+        <div className="logo">
+          <img src={Logo} alt="Logo" className="logo-img" />
+        </div>
         <div className="center">
           <ul>
             <p className="title">YÖNETİM</p>
