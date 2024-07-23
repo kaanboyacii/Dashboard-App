@@ -1,5 +1,5 @@
-import React from 'react';
-import { ListItem, ListItemIcon, ListItemText, CssBaseline } from '@mui/material';
+import React, { useState } from 'react';
+import { ListItem, ListItemIcon, ListItemText, CssBaseline, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
   Dashboard as DashboardIcon,
@@ -10,16 +10,32 @@ import {
   InsertChart as InsertChartIcon,
   NotificationsNone as NotificationsNoneIcon,
   AccountCircleOutlined as AccountCircleOutlinedIcon,
-  ExitToApp as ExitToAppIcon
+  ExitToApp as ExitToAppIcon,
+  Menu as MenuIcon
 } from '@mui/icons-material';
-import Logo from "../../images/logo.jpg"
 import './frontbase.scss';
+import Logo from "../../images/logo.jpg"
 
 const Frontbase = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="frontbase-container">
       <CssBaseline />
-      <aside className="sidebar">
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        onClick={toggleSidebar}
+        className="menu-button"
+      >
+        <MenuIcon />
+      </IconButton>
+      <aside className={`sidebar ${!isSidebarOpen ? 'collapsed' : ''}`}>
         <div className="logo">
           <img src={Logo} alt="Logo" className="logo-img" />
         </div>
@@ -82,7 +98,7 @@ const Frontbase = ({ children }) => {
           </ul>
         </div>
       </aside>
-      <main className="main-content">
+      <main className={`main-content ${!isSidebarOpen ? 'collapsed' : ''}`}>
         {children}
       </main>
       <footer className="footer">

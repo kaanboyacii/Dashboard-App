@@ -3,6 +3,7 @@
 .frontbase-container {
   display: flex;
   height: 100vh;
+  position: relative;
 }
 
 .sidebar {
@@ -15,10 +16,18 @@
   padding: 1rem;
   overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+  padding-left: 2rem;
+  }
+  &.collapsed {
+    transform: translateX(-220px);
+  }
 
   .logo {
     text-align: center;
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
     
     .logo-img {
       max-width: 100%;
@@ -83,6 +92,12 @@
   margin-left: 220px;
   padding: 1rem;
   width: calc(100% - 220px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 .footer {
@@ -94,4 +109,22 @@
   bottom: 0;
   width: calc(100% - 220px);
   left: 220px;
+  transition: width 0.3s ease, left 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    left: 0;
+  }
+}
+
+.menu-button {
+  display: none; 
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 0.5rem;
+    z-index: 1000;
+  }
 }
