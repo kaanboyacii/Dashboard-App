@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./register.scss";
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage2, setErrorMessage2] = useState("");
@@ -17,7 +17,7 @@ const Register = () => {
     e.preventDefault();
     dispatch(register());
     try {
-      const res = await axios.post("/auth/signup", { name, email, password });
+      const res = await axios.post("/auth/signup", { username, email, password });
       dispatch(registerSuccess(res.data));
       navigate("/");
     } catch (err) {
@@ -33,7 +33,7 @@ const Register = () => {
           <h1 className="title">Kayıt ol</h1>
           <input
             placeholder="Kullanıcı adı"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className="input"
           />
           <input
