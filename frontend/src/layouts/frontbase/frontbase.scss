@@ -17,7 +17,7 @@
   overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
-
+  z-index: 999;
   @media (max-width: 768px) {
   padding-left: 2rem;
   }

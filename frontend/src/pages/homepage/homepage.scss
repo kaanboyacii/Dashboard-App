@@ -1,0 +1,118 @@
+@import "../../styles/color.scss";
+
+.homepage-content {
+  padding: 1rem;
+  position: relative;
+
+  .widget-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+
+    .widget {
+      flex: 1;
+      min-width: calc(25% - 1rem);
+      background-color: $primary-color;
+      padding: 1rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      text-align: start;
+      color: $white-color;
+      position: relative;
+
+      .widget-title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .widget-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .widget-button {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: $button-primary;
+        color: $white-color;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: background-color 0.3s ease;
+        z-index: 1;
+
+        &:hover {
+          background-color: $button-hover;
+        }
+      }
+    }
+  }
+
+  .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .chart-card {
+      flex: 1;
+      min-width: calc(50% - 1rem);
+      background-color: $background-color;
+      padding: 1rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+  }
+
+  // Tablet görünüm
+  @media (max-width: 1024px) {
+    .widget-container {
+      .widget {
+        min-width: calc(50% - 1rem);
+      }
+    }
+
+    .chart-container {
+      .chart-card {
+        min-width: calc(100% - 1rem);
+      }
+    }
+  }
+
+  // Mobil görünüm
+  @media (max-width: 768px) {
+    .widget-container {
+      .widget {
+        min-width: calc(100% - 1rem);
+        padding: 0.75rem;
+        .widget-title {
+          font-size: 0.875rem;
+        }
+        .widget-value {
+          font-size: 1.25rem;
+        }
+        .widget-button {
+          padding: 0.4rem;
+          font-size: 0.65rem;
+        }
+      }
+    }
+
+    .chart-container {
+      .chart-card {
+        min-width: calc(100% - 1rem);
+        padding: 0.75rem;
+      }
+    }
+  }
+}
