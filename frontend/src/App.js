@@ -4,6 +4,7 @@ import Register from "./pages/register/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Navigate } from 'react-router-dom';
+import Projects from "./pages/projects/Projects";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ function App() {
           <>
             <Route path="/">
               <Route index element={<Homepage />} />
+              <Route path="/projects" element={<Projects />} />
               {/* <Route path="projects">
                 <Route index element={<List />} />
                 <Route path=":id" element={<Single />} />

@@ -1,0 +1,59 @@
+@import "../../styles/color.scss";
+
+.projects-content {
+  padding: 1rem;
+  background-color: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  right: 1rem;
+  border-radius: 10px;
+  background-color: $white-color;
+  @media (max-width: 768px) {
+    right: 1.5rem;
+  }
+
+  .card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: $text-color;
+  }
+
+  .table-container {
+    .MuiTable-root {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+
+      thead {
+        background-color: $white-color;
+        color: $white-color;
+        th {
+          padding: 0.75rem;
+          text-align: left;
+          font-weight: bold;
+          font-size: 0.875rem;
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-of-type(even) {
+            background-color: $background-color;
+          }
+
+          &:hover {
+            background-color: $background-color;
+          }
+
+          td {
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            color: $text-color;
+          }
+        }
+      }
+    }
+  }
+}

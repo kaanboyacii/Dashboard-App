@@ -15,9 +15,19 @@ import {
 } from '@mui/icons-material';
 import './frontbase.scss';
 import Logo from "../../images/logo.jpg"
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from "../../redux/userSlice.js";
 
 const Frontbase = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatchL = useDispatch();
+
+  const handleLogout = async (e) => {
+    window.location.href = "/";
+    e.preventDefault();
+    dispatchL(logout());
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -91,7 +101,7 @@ const Frontbase = ({ children }) => {
                 <ListItemText primary="Profil" />
               </ListItem>
             </Link>
-            <ListItem button>
+            <ListItem button onClick={handleLogout}>
               <ListItemIcon><ExitToAppIcon className="icon" /></ListItemIcon>
               <ListItemText primary="Çıkış yap" />
             </ListItem>
