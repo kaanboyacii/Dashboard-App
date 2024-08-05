@@ -48,7 +48,7 @@ const Projects = () => {
   }, [UserId]);
 
   const handleRowClick = (id) => {
-    navigate(`/projects/${id}`);
+    navigate(`/project/${id}`);
   };
 
   return (

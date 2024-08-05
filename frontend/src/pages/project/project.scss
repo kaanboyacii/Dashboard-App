@@ -1,0 +1,171 @@
+@import "../../styles/color.scss";
+
+.project-container {
+  .top {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+
+    .buttonContainer {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .firstRow {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .secondRow {
+      display: flex;
+      gap: 10px;
+    }
+
+    .left {
+      flex: 1;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+
+      .paymentButton,
+      .costButton,
+      .pdfButton,
+      .paymentCategoryButton,
+      .costCategoryButton {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 10px;
+        transition: all 0.2s ease-in-out;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .paymentButton {
+        background-color: $button-secondary;
+        color: $white-color;
+
+        &:hover {
+          background-color: $button-secondary-hover;
+        }
+      }
+
+      .costButton {
+        background-color: $button-primary;
+        color: $white-color;
+
+        &:hover {
+          background-color: $button-hover;
+        }
+      }
+
+      .pdfButton {
+        background-color: $button-extra;
+        color: $white-color;
+
+        &:hover {
+          background-color: $button-extra-hover;
+        }
+      }
+
+      .editButton {
+        position: absolute;
+        padding: 5px;
+        font-size: 18px;
+        color: $white-color;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $white-color;
+          color: $button-extra-hover;
+        }
+      }
+
+      .editButton {
+        top: 0;
+        right: 0;
+        background-color: $button-extra;
+        border-radius: 0px 10px 0px 10px;
+      }
+
+      .item {
+        display: flex;
+        gap: 20px;
+
+        .itemImg {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .details {
+          .itemTitle {
+            margin-bottom: 10px;
+            color: $text-color;
+          }
+
+          .detailItem {
+            margin-bottom: 10px;
+            font-size: 14px;
+
+            .itemKey {
+              color: $gray-color;
+              margin-right: 5px;
+            }
+
+            .itemValue {
+              font-weight: 300;
+            }
+          }
+        }
+      }
+    }
+
+    .right {
+      flex: 2;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+  }
+
+  .bottom {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+
+    .left,
+    .right {
+      flex: 1;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .top {
+      flex-direction: column;
+
+      .left,
+      .right {
+        flex: unset;
+      }
+    }
+
+    .bottom {
+      flex-direction: column;
+
+      .left,
+      .right {
+        flex: unset;
+      }
+    }
+  }
+}

@@ -111,9 +111,9 @@ const Frontbase = ({ children }) => {
       <main className={`main-content ${!isSidebarOpen ? 'collapsed' : ''}`}>
         {children}
       </main>
-      <footer className="footer">
+      {/* <footer className="footer">
         <p>&copy; 2024 Tüm Hakları Saklıdır.</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }
