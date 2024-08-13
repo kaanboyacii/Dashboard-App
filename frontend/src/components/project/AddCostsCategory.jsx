@@ -1,40 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const AddCostsCategory = ({ setOpenCostsCategory }) => {
-  const [categoryName, setCategoryName] = useState(""); // Kategori adını tutmak için yeni bir state
+  const [categoryName, setCategoryName] = useState("");
   const { currentProject } = useSelector((state) => state.project);
-  const dispatch = useDispatch();
-  const path = useLocation().pathname.split("/")[2];
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setCategoryName(e.target.value); // Kategori adı değiştiğinde categoryName state'ini güncelle
+    setCategoryName(e.target.value)
   };
 
-  const handleAdd = async () => {
-    if (!categoryName) {
-      console.log("Kategori adı boş olamaz.");
-      return;
-    }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post(
-        `/projects/add-costs-category/${currentProject._id}`, // ._id olarak güncelledim
-        {
-          category: categoryName // Doğru şekilde category alanını ayarla
-        }
-      );
-      dispatch(fetchSuccess(response.data));
+      const response = await axios.post("/cost-category", {
+        name: categoryName,
+        projectId: currentProject._id,
+      });
+      console.log("Kategori başarıyla eklendi:", response.data);
       setOpenCostsCategory(false);
     } catch (error) {
-      console.log(error);
+      console.error("Kategori eklenirken bir hata oluştu:", error);
     }
   };
-
   return (
     <div className="container">
       <div className="wrapperU">
@@ -46,11 +34,11 @@ const AddCostsCategory = ({ setOpenCostsCategory }) => {
         <input
           type="text"
           placeholder="Kategori adı"
-          value={categoryName} // Değer categoryName state'ine bağlı olmalı
+          value={categoryName}
           onChange={handleChange}
           className="input"
         />
-        <button onClick={handleAdd} className="button">
+        <button onClick={handleSubmit} className="button">
           Ekle
         </button>
       </div>
