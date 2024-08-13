@@ -2,15 +2,26 @@ import "./update.scss";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const UpdateCosts = ({ setOpenCosts }) => {
   const { currentProject } = useSelector((state) => state.project);
-  const dispatch = useDispatch();
   const [inputs, setInputs] = useState({});
-  const path = useLocation().pathname.split("/")[2];
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(`/cost-category/${currentProject._id}`);
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Kategori verileri alınamadı:", err);
+      }
+    };
+
+    fetchCategories();
+  }, [currentProject._id]);
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -32,7 +43,10 @@ const UpdateCosts = ({ setOpenCosts }) => {
       costs: [...currentProject.costs, newCost],
     };
 
-    const res = await axios.put(`/projects/${currentProject._id}`, updatedProject);
+    const res = await axios.put(
+      `/projects/${currentProject._id}`,
+      updatedProject
+    );
     setOpenCosts(false);
     res.status === 200 && navigate(`/projects/${res.data._id}`);
     window.location.reload();
@@ -56,8 +70,10 @@ const UpdateCosts = ({ setOpenCosts }) => {
         <label className="label">Kategori:</label>
         <select name="category" onChange={handleChange} className="input">
           <option value="">Kategori Seçin</option>
-          {currentProject.costsCategory.map((category, index) => (
-            <option value={category} key={index}>{category}</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category.name}>
+              {category.name}
+            </option>
           ))}
         </select>
         <label className="label">Miktar:</label>
