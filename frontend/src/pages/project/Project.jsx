@@ -8,11 +8,10 @@ import UpdatePayments from "../../components/project/UpdatePayments";
 import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
+import Success from "../../components/windows/Success";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  fetchSuccess,
-} from "../../redux/projectSlice.js";
+import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
 const Project = () => {
@@ -86,15 +85,31 @@ const Project = () => {
             <div className="datatableTitle">
               <div className="buttonContainer">
                 <div className="firstRow">
-                  <button className="paymentButton">Yeni ödeme ekle</button>
+                  <button
+                    className="paymentButton"
+                    onClick={() => setOpenPayments(true)}
+                  >
+                    Yeni ödeme ekle
+                  </button>
                   <button className="pdfButton">Belge Oluştur</button>
-                  <button className="costButton">Yeni maliyet ekle</button>
+                  <button
+                    className="costButton"
+                    onClick={() => setOpenCosts(true)}
+                  >
+                    Yeni maliyet ekle
+                  </button>
                 </div>
                 <div className="secondRow">
-                  <button className="paymentButton">
+                  <button
+                    className="paymentButton"
+                    onClick={() => setOpenPaymentsCategory(true)}
+                  >
                     Yeni ödeme kategorisi ekle
                   </button>
-                  <button className="costButton">
+                  <button
+                    className="costButton"
+                    onClick={() => setOpenCostsCategory(true)}
+                  >
                     Yeni maliyet kategorisi ekle
                   </button>
                 </div>
