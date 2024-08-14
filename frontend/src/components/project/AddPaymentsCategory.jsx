@@ -10,7 +10,7 @@ const AddPaymentsCategory = ({ setOpenPaymentsCategory }) => {
   const { currentProject } = useSelector((state) => state.project);
 
   const handleChange = (e) => {
-    setCategoryName(e.target.value)
+    setCategoryName(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -22,6 +22,7 @@ const AddPaymentsCategory = ({ setOpenPaymentsCategory }) => {
       });
       console.log("Kategori başarıyla eklendi:", response.data);
       setOpenPaymentsCategory(false);
+      window.location.reload();
     } catch (error) {
       console.error("Kategori eklenirken bir hata oluştu:", error);
     }

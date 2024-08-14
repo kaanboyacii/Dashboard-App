@@ -2,10 +2,9 @@ import "./update.scss";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const UpdatePayments = ({ setOpenPayments }) => {
+const AddCost = ({ setOpenCosts }) => {
   const { currentProject } = useSelector((state) => state.project);
   const [inputs, setInputs] = useState({});
   const [categories, setCategories] = useState([]);
@@ -14,7 +13,7 @@ const UpdatePayments = ({ setOpenPayments }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`/payment-category/${currentProject._id}`);
+        const res = await axios.get(`/cost-category/${currentProject._id}`);
         setCategories(res.data);
       } catch (err) {
         console.error("Kategori verileri alınamadı:", err);
@@ -23,42 +22,50 @@ const UpdatePayments = ({ setOpenPayments }) => {
 
     fetchCategories();
   }, [currentProject._id]);
+
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
-  const handleUpdate = async (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-    const newPayment = {
-      title: inputs.title,
-      category: inputs.category,
-      amount: inputs.amount,
-      date: new Date(),
-    };
 
-    const updatedProject = {
-      ...currentProject,
-      payments: [...currentProject.payments, newPayment],
-    };
-
-    const res = await axios.put(
-      `/projects/${currentProject._id}`,
-      updatedProject
+    const selectedCategory = categories.find(
+      (category) => category.name === inputs.category
     );
-    setOpenPayments(false);
-    res.status === 200 && navigate(`/projects/${res.data._id}`);
-    window.location.reload();
+
+    if (!selectedCategory) {
+      alert("Lütfen geçerli bir kategori seçin.");
+      return;
+    }
+    const newCost = {
+      projectId: currentProject._id,
+      title: inputs.title,
+      category: selectedCategory._id,
+      amount: inputs.amount,
+      date: new Date().toISOString(),
+    };
+
+    try {
+      const res = await axios.post("/costs", newCost);
+      console.log("Yeni maliyet eklendi:", res.data);
+      setOpenCosts(false);
+      navigate(`/project/${currentProject._id}`);
+      window.location.reload();
+    } catch (err) {
+      console.error("Maliyet eklenemedi:", err);
+    }
   };
 
   return (
     <div className="container">
       <div className="wrapperU">
-        <div className="close" onClick={() => setOpenPayments(false)}>
+        <div className="close" onClick={() => setOpenCosts(false)}>
           X
         </div>
-        <h1 className="title">Yeni ödeme ekle</h1>
+        <h1 className="title">Yeni maliyet ekle</h1>
         <label className="label">Başlık:</label>
         <input
           type="text"
@@ -84,7 +91,7 @@ const UpdatePayments = ({ setOpenPayments }) => {
           onChange={handleChange}
           className="input"
         />
-        <button onClick={handleUpdate} className="button">
+        <button onClick={handleAdd} className="button">
           Ekle
         </button>
       </div>
@@ -92,4 +99,4 @@ const UpdatePayments = ({ setOpenPayments }) => {
   );
 };
 
-export default UpdatePayments;
+export default AddCost;

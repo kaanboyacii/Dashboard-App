@@ -3,8 +3,8 @@ import Frontbase from "../../layouts/frontbase/Frontbase";
 import "./project.scss";
 import PaymentTable from "../../components/tables/PaymentTable";
 import CostTable from "../../components/tables/CostTable";
-import UpdateCosts from "../../components/project/UpdateCosts";
-import UpdatePayments from "../../components/project/UpdatePayments";
+import AddCosts from "../../components/project/AddCosts";
+import AddPayments from "../../components/project/AddPayments";
 import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
@@ -129,8 +129,8 @@ const Project = () => {
           </div>
         </div>
       </div>
-      {openPayments && <UpdatePayments setOpenPayments={setOpenPayments} />}
-      {openCosts && <UpdateCosts setOpenCosts={setOpenCosts} />}
+      {openPayments && <AddPayments setOpenPayments={setOpenPayments} />}
+      {openCosts && <AddCosts setOpenCosts={setOpenCosts} />}
       {openProject && <UpdateProject setOpenProject={setOpenProject} />}
       {openCostsCategory && (
         <AddCostsCategory setOpenCostsCategory={setOpenCostsCategory} />
