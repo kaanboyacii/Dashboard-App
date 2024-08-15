@@ -46,7 +46,6 @@ const AddPayments = ({ setOpenPayments }) => {
       title: inputs.title,
       category: selectedCategory._id,
       amount: inputs.amount,
-      date: new Date().toISOString(),
     };
 
     try {
