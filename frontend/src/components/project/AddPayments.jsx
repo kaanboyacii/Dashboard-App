@@ -1,9 +1,8 @@
 import "./update.scss";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddPayments = ({ setOpenPayments }) => {
   const { currentProject } = useSelector((state) => state.project);
