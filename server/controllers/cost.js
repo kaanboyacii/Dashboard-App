@@ -7,7 +7,6 @@ import createError from "http-errors";
 export const addCost = async (req, res, next) => {
   const { projectId, title, category, amount } = req.body;
 
-  // amount'u sayıya dönüştür
   const numericAmount = parseFloat(amount);
   if (isNaN(numericAmount)) {
     return next(createError(400, "Geçersiz gider miktarı."));
@@ -22,7 +21,7 @@ export const addCost = async (req, res, next) => {
       projectId,
       title,
       category,
-      amount: numericAmount, // Sayı olarak kaydedin
+      amount: numericAmount,
       date: Date.now(),
     });
     const savedCost = await newCost.save();
@@ -30,7 +29,7 @@ export const addCost = async (req, res, next) => {
     // Projeyi güncelle
     const project = await Project.findById(projectId);
     project.costs.push(savedCost._id);
-    project.totalCosts += numericAmount; // Sayıyı ekleyin
+    project.totalCosts += numericAmount;
     project.balance = project.totalCosts - project.totalPayments;
     project.earning = project.totalPayments - project.totalCosts;
     await project.save();
@@ -46,7 +45,6 @@ export const updateCost = async (req, res, next) => {
   const { id } = req.params;
   const { title, category, amount, date } = req.body;
 
-  // amount'u sayıya dönüştür
   const numericAmount = parseFloat(amount);
   if (isNaN(numericAmount)) {
     return next(createError(400, "Geçersiz gider miktarı."));
@@ -65,7 +63,7 @@ export const updateCost = async (req, res, next) => {
       {
         title,
         category,
-        amount: numericAmount, // Sayı olarak güncelleyin
+        amount: numericAmount,
         date,
       },
       { new: true }
@@ -73,7 +71,7 @@ export const updateCost = async (req, res, next) => {
 
     // Projeyi güncelle
     const project = await Project.findById(cost.projectId);
-    project.totalCosts = project.totalCosts - oldAmount + numericAmount; // Sayı olarak güncelleyin
+    project.totalCosts = project.totalCosts - oldAmount + numericAmount;
     project.balance = project.totalCosts - project.totalPayments;
     project.earning = project.totalPayments - project.totalCosts;
     await project.save();
@@ -97,7 +95,7 @@ export const deleteCost = async (req, res, next) => {
     // Projeyi güncelle
     const project = await Project.findById(deletedCost.projectId);
     project.costs.pull(deletedCost._id);
-    project.totalCosts -= deletedCost.amount; // Sayıyı çıkarın
+    project.totalCosts -= deletedCost.amount;
     project.balance = project.totalCosts - project.totalPayments;
     project.earning = project.totalPayments - project.totalCosts;
     await project.save();
