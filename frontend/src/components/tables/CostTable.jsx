@@ -47,7 +47,7 @@ const CostTable = () => {
   const columns = [
     { field: "title", headerName: "Başlık", width: 120 },
     { field: "category", headerName: "Kategori", width: 120 },
-    { field: "amount", headerName: "Miktar", width: 50 },
+    { field: "amount", headerName: "Miktar", width: 100 },
     {
       field: "date",
       headerName: "Tarih",
