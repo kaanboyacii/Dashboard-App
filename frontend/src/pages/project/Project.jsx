@@ -8,11 +8,14 @@ import AddPayments from "../../components/project/AddPayments";
 import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
-import Success from "../../components/windows/Success";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { fetchSuccess } from "../../redux/projectSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import Logo from "./../../images/logo.jpg";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const Project = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -25,6 +28,28 @@ const Project = () => {
   const [openPaymentsCategory, setOpenPaymentsCategory] = useState(false);
   const [openProject, setOpenProject] = useState(false);
 
+  const [costs, setCosts] = useState([]);
+  const [payments, setPayments] = useState([]);
+
+  useEffect(() => {
+    const fetchCostsAndPayments = async () => {
+      if (currentProject && currentProject._id) {
+        try {
+          const costsRes = await axios.get(`/costs/${currentProject._id}`);
+          const paymentsRes = await axios.get(
+            `/payments/${currentProject._id}`
+          );
+          setCosts(costsRes.data);
+          setPayments(paymentsRes.data);
+        } catch (err) {
+          console.log("Veriler alınırken hata oluştu:", err);
+        }
+      }
+    };
+
+    fetchCostsAndPayments();
+  }, [currentProject]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,6 +61,97 @@ const Project = () => {
     };
     fetchData();
   }, [path, dispatch]);
+
+  const generatePDF = async () => {
+    const convertToBase64 = (url) => {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          const reader = new FileReader();
+          reader.onloadend = function () {
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(xhr.response);
+        };
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.send();
+      });
+    };
+
+    const logoBase64 = await convertToBase64(Logo);
+
+    const docDefinition = {
+      content: [
+        {
+          image: logoBase64,
+          width: 200,
+          absolutePosition: { x: 10, y: 10 },
+        },
+        { text: "Proje Bilgileri", style: "header", margin: [0, 50, 0, 10] },
+        {
+          table: {
+            body: [
+              ["Başlık", currentProject.title],
+              ["Açıklama", currentProject.desc],
+              ["Durum", currentProject.status],
+              ["İletişim", currentProject.contact],
+              ["Bakiye", `${currentProject.balance} ₺`],
+              ["Kar / Zarar", `${currentProject.earning} ₺`],
+              ["Toplam Alınan Ödeme", `${currentProject.totalPayments} ₺`],
+              ["Toplam Maliyet", `${currentProject.totalCosts} ₺`],
+            ],
+          },
+        },
+        { text: "Maliyetler", style: "subheader", margin: [0, 20, 0, 10] },
+        costs.length > 0
+          ? {
+              table: {
+                body: [
+                  ["Başlık", "Miktar", "Tarih"],
+                  ...costs.map((cost) => [
+                    cost.title,
+                    `${cost.amount} ₺`,
+                    new Date(cost.date).toLocaleDateString(),
+                  ]),
+                ],
+              },
+            }
+          : { text: "Maliyet kaydı yok.", italics: true },
+        { text: "Ödemeler", style: "subheader", margin: [0, 20, 0, 10] },
+        payments.length > 0
+          ? {
+              table: {
+                body: [
+                  ["Başlık", "Miktar", "Tarih"],
+                  ...payments.map((payment) => [
+                    payment.title,
+                    `${payment.amount} ₺`,
+                    new Date(payment.date).toLocaleDateString(),
+                  ]),
+                ],
+              },
+            }
+          : { text: "Ödeme kaydı yok.", italics: true },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          marginBottom: 10,
+        },
+        subheader: {
+          fontSize: 15,
+          bold: true,
+        },
+      },
+      defaultStyle: {
+        font: "Roboto",
+      },
+    };
+
+    pdfMake.createPdf(docDefinition).download(`${currentProject.title}.pdf`);
+  };
 
   return (
     <Frontbase>
@@ -91,7 +207,9 @@ const Project = () => {
                   >
                     Yeni ödeme ekle
                   </button>
-                  <button className="pdfButton">Belge Oluştur</button>
+                  <button className="pdfButton" onClick={generatePDF}>
+                    Belge Oluştur
+                  </button>{" "}
                   <button
                     className="costButton"
                     onClick={() => setOpenCosts(true)}
