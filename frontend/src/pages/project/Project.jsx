@@ -8,6 +8,7 @@ import AddPayments from "../../components/project/AddPayments";
 import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
+import CategoryPie from "../../components/charts/CategoryPie"
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { fetchSuccess } from "../../redux/projectSlice.js";
@@ -234,7 +235,9 @@ const Project = () => {
               </div>
             </div>
           </div>
-          <div className="right"></div>
+          <div className="right">
+           <CategoryPie />
+          </div>
         </div>
         <div className="bottom">
           <div className="left">
