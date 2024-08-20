@@ -14,7 +14,7 @@ import {
   Menu as MenuIcon
 } from '@mui/icons-material';
 import './frontbase.scss';
-import Logo from "../../images/logo.jpg";
+import Logo from "../../images/logo.png";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../../redux/userSlice.js";
 
