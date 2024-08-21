@@ -1,7 +1,7 @@
-import "./update.scss";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Select, InputLabel } from "@mui/material";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AddPayments = ({ setOpenPayments }) => {
@@ -24,9 +24,10 @@ const AddPayments = ({ setOpenPayments }) => {
   }, [currentProject._id]);
 
   const handleChange = (e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleAdd = async (e) => {
@@ -40,6 +41,7 @@ const AddPayments = ({ setOpenPayments }) => {
       alert("Lütfen geçerli bir kategori seçin.");
       return;
     }
+
     const newCost = {
       projectId: currentProject._id,
       title: inputs.title,
@@ -52,49 +54,71 @@ const AddPayments = ({ setOpenPayments }) => {
       console.log("Yeni ödeme eklendi:", res.data);
       setOpenPayments(false);
       navigate(`/project/${currentProject._id}`);
-      window.location.reload();
+      window.location.reload(); 
     } catch (err) {
       console.error("Ödeme eklenemedi:", err);
     }
   };
 
   return (
-    <div className="container">
-      <div className="wrapperU">
-        <div className="close" onClick={() => setOpenPayments(false)}>
-          X
-        </div>
-        <h1 className="title">Yeni ödeme ekle</h1>
-        <label className="label">Başlık:</label>
-        <input
-          type="text"
-          placeholder="Başlık"
-          name="title"
-          onChange={handleChange}
-          className="input"
-        />
-        <label className="label">Kategori:</label>
-        <select name="category" onChange={handleChange} className="input">
-          <option value="">Kategori Seçin</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <label className="label">Miktar:</label>
-        <input
-          type="text"
-          placeholder="Miktar (₺)"
-          name="amount"
-          onChange={handleChange}
-          className="input"
-        />
-        <button onClick={handleAdd} className="button">
-          Ekle
-        </button>
-      </div>
-    </div>
+    <Dialog open={true} onClose={() => setOpenPayments(false)}>
+      <DialogTitle>Yeni Ödeme Ekle</DialogTitle>
+      <DialogContent>
+        <form noValidate autoComplete="off" onSubmit={handleAdd}>
+          <TextField
+            label="Başlık"
+            fullWidth
+            margin="normal"
+            placeholder="Başlık"
+            name="title"
+            onChange={handleChange}
+            required
+          />
+          <InputLabel id="category-label">Kategori</InputLabel>
+          <Select
+            labelId="category-label"
+            name="category"
+            value={inputs.category || ""}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            displayEmpty
+            required
+          >
+            <MenuItem value="" disabled>Kategori Seçin</MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category._id} value={category.name}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <TextField
+            label="Miktar (₺)"
+            fullWidth
+            margin="normal"
+            placeholder="Miktar (₺)"
+            name="amount"
+            onChange={handleChange}
+            required
+          />
+          <DialogActions>
+            <Button
+              onClick={() => setOpenPayments(false)}
+              color="primary"
+            >
+              Kapat
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Ekle
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -55,7 +55,6 @@ const CategoryPie = () => {
     fetchPaymentCategories();
   }, [currentProject._id]);
 
-  // Kategorileri sayma ve isimleri eşleştirme
   const calculateCategoryData = (categories, items, categoryKey, amountKey) => {
     const categoryMap = new Map();
     categories.forEach((category) => {

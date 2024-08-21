@@ -1,8 +1,15 @@
-import "./update.scss";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSuccess,
   deleteProjectSuccess,
@@ -13,22 +20,27 @@ const UpdateProject = ({ setOpenProject }) => {
   const { currentProject } = useSelector((state) => state.project);
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState(currentProject);
-  const path = useLocation().pathname.split("/")[2];
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`/projects/${currentProject._id}`, inputs);
-    setOpenProject(false);
-    res.status === 200 && navigate(`/project/${res.data.project._id}`);
-    window.location.reload();
-    setInputs({});
+    try {
+      const res = await axios.put(`/projects/${currentProject._id}`, inputs);
+      if (res.status === 200) {
+        setOpenProject(false);
+        navigate(`/project/${res.data.project._id}`);
+        dispatch(fetchSuccess(res.data.project));
+      }
+    } catch (error) {
+      console.error("Projeyi güncellerken hata oluştu:", error);
+    }
   };
 
   const handleDelete = async () => {
@@ -37,58 +49,86 @@ const UpdateProject = ({ setOpenProject }) => {
       navigate("/projects");
       dispatch(deleteProjectSuccess());
     } catch (error) {
-      console.log(error);
+      console.error("Projeyi silerken hata oluştu:", error);
       dispatch(deleteProjectFailure());
     }
   };
 
   return (
-    <div className="container">
-      <div className="wrapperU">
-        <div className="close" onClick={() => setOpenProject(false)}>
-          X
-        </div>
-        <h1 className="title">Projeyi düzenle</h1>
-        <label className="label">Başlık:</label>
-        <input
-          type="text"
-          name="title"
-          value={inputs.title}
-          onChange={handleChange}
-          className="input"
-        />
-        <label className="label">Açıklama:</label>
-        <input
-          type="text"
-          value={inputs.desc}
-          name="desc"
-          onChange={handleChange}
-          className="input"
-        />
-        <label className="label">Durum:</label>
-        <input
-          type="text"
-          value={inputs.status}
-          name="status"
-          onChange={handleChange}
-          className="input"
-        />
-        <label className="label">İletişim:</label>
-        <input
-          type="text"
-          value={inputs.contact}
-          name="contact"
-          onChange={handleChange}
-          className="input"
-        />
-        <button onClick={handleUpdate} className="button">
-          Güncelle
-        </button>
-        <button onClick={handleDelete} className="button-delete">
-          Projeyi Kaldır
-        </button>
-      </div>
-    </div>
+    <Dialog open={true} onClose={() => setOpenProject(false)}>
+      <DialogTitle>Projeyi Düzenle</DialogTitle>
+      <DialogContent>
+        <form noValidate autoComplete="off" onSubmit={handleUpdate}>
+          <TextField
+            name="title"
+            label="Başlık"
+            fullWidth
+            margin="normal"
+            value={inputs.title}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            name="desc"
+            label="Açıklama"
+            fullWidth
+            margin="normal"
+            value={inputs.desc}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            name="status"
+            label="Durum"
+            fullWidth
+            margin="normal"
+            value={inputs.status}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            name="contact"
+            label="İletişim"
+            fullWidth
+            margin="normal"
+            value={inputs.contact}
+            onChange={handleChange}
+          />
+          <TextField
+            name="profitRate"
+            label="Kar Oranı"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={inputs.profitRate}
+            onChange={handleChange}
+          />
+          <DialogActions>
+            <Button
+              onClick={handleDelete}
+              color="error"
+              variant="contained"
+            >
+              Projeyi Kaldır
+            </Button>
+            <Button
+              onClick={handleUpdate}
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Güncelle
+            </Button>
+            <Button
+              onClick={() => setOpenProject(false)}
+              color="primary"
+            >
+              Kapat
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

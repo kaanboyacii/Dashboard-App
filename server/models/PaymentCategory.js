@@ -4,7 +4,6 @@ const PaymentCategorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   projectId: {
     type: mongoose.Schema.Types.ObjectId,

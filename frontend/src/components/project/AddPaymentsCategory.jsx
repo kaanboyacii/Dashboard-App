@@ -1,9 +1,7 @@
-import "./update.scss";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AddPaymentsCategory = ({ setOpenPaymentsCategory }) => {
   const [categoryName, setCategoryName] = useState("");
@@ -22,31 +20,44 @@ const AddPaymentsCategory = ({ setOpenPaymentsCategory }) => {
       });
       console.log("Kategori başarıyla eklendi:", response.data);
       setOpenPaymentsCategory(false);
-      window.location.reload();
+      // window.location.reload(); 
     } catch (error) {
       console.error("Kategori eklenirken bir hata oluştu:", error);
     }
   };
+
   return (
-    <div className="container">
-      <div className="wrapperU">
-        <div className="close" onClick={() => setOpenPaymentsCategory(false)}>
-          X
-        </div>
-        <h1 className="title">Yeni ödeme kategorisi ekle</h1>
-        <label className="label">Kategori adı:</label>
-        <input
-          type="text"
-          placeholder="Kategori adı"
-          value={categoryName}
-          onChange={handleChange}
-          className="input"
-        />
-        <button onClick={handleSubmit} className="button">
-          Ekle
-        </button>
-      </div>
-    </div>
+    <Dialog open={true} onClose={() => setOpenPaymentsCategory(false)}>
+      <DialogTitle>Yeni Ödeme Kategorisi Ekle</DialogTitle>
+      <DialogContent>
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <TextField
+            label="Kategori Adı"
+            fullWidth
+            margin="normal"
+            placeholder="Kategori adı"
+            value={categoryName}
+            onChange={handleChange}
+            required
+          />
+          <DialogActions>
+            <Button
+              onClick={() => setOpenPaymentsCategory(false)}
+              color="primary"
+            >
+              Kapat
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+            >
+              Ekle
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 
