@@ -73,7 +73,7 @@ const Projects = () => {
           className="add-project-button"
           onClick={handleAddProjectClick}
         >
-          Yeni Proje Ekle
+          YENİ PROJE EKLE
         </Button>
 
         {showAddProject && <AddProject onClose={handleCloseAddProject} />}

@@ -97,6 +97,7 @@ const Project = () => {
               ["Açıklama", currentProject.desc],
               ["Durum", currentProject.status],
               ["İletişim", currentProject.contact],
+              ["Kar Oranı", `%${currentProject.profitRate}`],
               ["Bakiye", `${currentProject.balance} ₺`],
               ["Kar / Zarar", `${currentProject.earning} ₺`],
               ["Toplam Alınan Ödeme", `${currentProject.totalPayments} ₺`],
@@ -176,6 +177,10 @@ const Project = () => {
                 <div className="detailItem">
                   <span className="itemKey">İletişim:</span>
                   <span className="itemValue">{currentProject.contact}</span>
+                </div>
+                <div className="detailItem">
+                  <span className="itemKey">Kar Oranı:</span>
+                  <span className="itemValue">%{currentProject.profitRate}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Bakiye:</span>

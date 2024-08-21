@@ -3,7 +3,7 @@ import { createError } from "../utility/error.js";
 
 // Yeni bir proje oluşturma
 export const createProject = async (req, res, next) => {
-  const { userId, title, status, desc, contact } = req.body;
+  const { userId, title, status, desc, contact, profitRate } = req.body;
 
   try {
     const newProject = new Project({
@@ -12,6 +12,7 @@ export const createProject = async (req, res, next) => {
       status,
       desc,
       contact,
+      profitRate,
     });
 
     await newProject.save();
@@ -66,12 +67,12 @@ export const getProjectById = async (req, res, next) => {
 // Proje güncelleme
 export const updateProject = async (req, res, next) => {
   const { id } = req.params;
-  const { userId, title, status, desc, contact } = req.body;
+  const { userId, title, status, desc, contact, profitRate } = req.body;
 
   try {
     const updatedProject = await Project.findByIdAndUpdate(
       id,
-      { userId, title, status, desc, contact },
+      { userId, title, status, desc, contact, profitRate },
       { new: true }
     );
 
