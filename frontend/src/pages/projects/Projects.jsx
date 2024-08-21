@@ -11,12 +11,15 @@ import {
   TableRow,
   Paper,
   Typography,
+  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./projects.scss";
+import AddProject from "../../components/project/AddProject";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [showAddProject, setShowAddProject] = useState(false); // Yeni state
   const { currentUser } = useSelector((state) => state.user);
   const UserId = currentUser.user._id;
   const navigate = useNavigate();
@@ -51,12 +54,29 @@ const Projects = () => {
     navigate(`/project/${id}`);
   };
 
+  const handleAddProjectClick = () => {
+    setShowAddProject(true);
+  };
+
+  const handleCloseAddProject = () => {
+    setShowAddProject(false);
+  };
+
   return (
     <Frontbase>
       <div className="projects-content">
         <Typography variant="h5" gutterBottom className="card-header">
           Projeler
         </Typography>
+        <Button
+          variant="contained"
+          className="add-project-button"
+          onClick={handleAddProjectClick}
+        >
+          Yeni Proje Ekle
+        </Button>
+
+        {showAddProject && <AddProject onClose={handleCloseAddProject} />}
         <div className="table-container">
           <TableContainer component={Paper}>
             <Table>

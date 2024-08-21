@@ -6,11 +6,11 @@
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   position: relative;
-  right: 1rem;
   border-radius: 10px;
   background-color: $white-color;
+
   @media (max-width: 768px) {
-    right: 1.5rem;
+    margin-right: 1.5rem;
   }
 
   .card-header {
@@ -54,6 +54,29 @@
           }
         }
       }
+    }
+  }
+
+  .add-project-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: $button-primary;
+    color: $white-color;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+
+    &:hover {
+      background-color: $button-hover;
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
   }
 }
