@@ -9,10 +9,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addProjectStart, addProjectSuccess, addProjectFailure } from "../../redux/projectSlice";
 
 const AddProject = ({ onClose }) => {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     title: "",
     status: "",
@@ -23,26 +25,29 @@ const AddProject = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleAdd = async (e) => {
     e.preventDefault();
-
+    dispatch(addProjectStart());
     const projectData = { ...inputs, userId: currentUser.user._id };
     try {
       const res = await axios.post("/projects", projectData);
       if (res.status === 201) {
-        console.log("Proje başarıyla eklendi:", res.data);
+        dispatch(addProjectSuccess(res.data.project));
         navigate(`/project/${res.data.project._id}`);
         onClose();
       }
     } catch (err) {
       console.error("Proje eklenirken hata oluştu:", err);
+      dispatch(addProjectFailure());
     }
   };
+
 
   return (
     <Dialog open={true} onClose={onClose}>
@@ -129,3 +134,4 @@ const AddProject = ({ onClose }) => {
 };
 
 export default AddProject;
+

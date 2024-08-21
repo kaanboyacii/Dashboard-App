@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentProject: null,
-  projects: [],
   loading: false,
   error: false,
 };
@@ -23,25 +22,13 @@ export const projectSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    fetchAllProjectsStart: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-    fetchAllProjectsSuccess: (state, action) => {
-      state.loading = false;
-      state.projects = action.payload;
-    },
-    fetchAllProjectsFailure: (state) => {
-      state.loading = false;
-      state.error = true;
-    },
     addProjectStart: (state) => {
       state.loading = true;
       state.error = false;
     },
     addProjectSuccess: (state, action) => {
       state.loading = false;
-      state.projects.push(action.payload);
+      state.currentProject = action.payload;
     },
     addProjectFailure: (state) => {
       state.loading = false;
@@ -53,10 +40,7 @@ export const projectSlice = createSlice({
     },
     updateProjectSuccess: (state, action) => {
       state.loading = false;
-      state.currentProject = action.payload;
-      state.projects = state.projects.map((project) =>
-        project._id === action.payload._id ? action.payload : project
-      );
+      state.currentProject = action.payload; 
     },
     updateProjectFailure: (state) => {
       state.loading = false;
@@ -66,11 +50,9 @@ export const projectSlice = createSlice({
       state.loading = true;
       state.error = false;
     },
-    deleteProjectSuccess: (state, action) => {
+    deleteProjectSuccess: (state) => {
       state.loading = false;
-      state.projects = state.projects.filter(
-        (project) => project._id !== action.payload
-      );
+      state.currentProject = null;
     },
     deleteProjectFailure: (state) => {
       state.loading = false;
@@ -83,9 +65,6 @@ export const {
   fetchStart,
   fetchSuccess,
   fetchFailure,
-  fetchAllProjectsStart,
-  fetchAllProjectsSuccess,
-  fetchAllProjectsFailure,
   addProjectStart,
   addProjectSuccess,
   addProjectFailure,

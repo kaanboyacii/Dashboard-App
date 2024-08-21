@@ -8,10 +8,10 @@ import AddPayments from "../../components/project/AddPayments";
 import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
-import CategoryPie from "../../components/charts/CategoryPie"
+import CategoryPie from "../../components/charts/CategoryPie";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fetchSuccess } from "../../redux/projectSlice.js";
+import { fetchSuccess, fetchFailure } from "../../redux/projectSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -33,13 +33,24 @@ const Project = () => {
   const [payments, setPayments] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/projects/project/${path}`);
+        dispatch(fetchSuccess(res.data.project));
+      } catch (err) {
+        console.log(err);
+        dispatch(fetchFailure()); // Hata durumunda dispatch et
+      }
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  useEffect(() => {
     const fetchCostsAndPayments = async () => {
       if (currentProject && currentProject._id) {
         try {
           const costsRes = await axios.get(`/costs/${currentProject._id}`);
-          const paymentsRes = await axios.get(
-            `/payments/${currentProject._id}`
-          );
+          const paymentsRes = await axios.get(`/payments/${currentProject._id}`);
           setCosts(costsRes.data);
           setPayments(paymentsRes.data);
         } catch (err) {
@@ -50,18 +61,6 @@ const Project = () => {
 
     fetchCostsAndPayments();
   }, [currentProject]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/projects/project/${path}`);
-        dispatch(fetchSuccess(res.data.project));
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, [path, dispatch]);
 
   const generatePDF = async () => {
     const convertToBase64 = (url) => {
@@ -93,15 +92,15 @@ const Project = () => {
         {
           table: {
             body: [
-              ["Başlık", currentProject.title],
-              ["Açıklama", currentProject.desc],
-              ["Durum", currentProject.status],
-              ["İletişim", currentProject.contact],
-              ["Kar Oranı", `%${currentProject.profitRate}`],
-              ["Bakiye", `${currentProject.balance} ₺`],
-              ["Kar / Zarar", `${currentProject.earning} ₺`],
-              ["Toplam Alınan Ödeme", `${currentProject.totalPayments} ₺`],
-              ["Toplam Maliyet", `${currentProject.totalCosts} ₺`],
+              ["Başlık", currentProject?.title || ""],
+              ["Açıklama", currentProject?.desc || ""],
+              ["Durum", currentProject?.status || ""],
+              ["İletişim", currentProject?.contact || ""],
+              ["Kar Oranı", `%${currentProject?.profitRate || ""}`],
+              ["Bakiye", `${currentProject?.balance || ""} ₺`],
+              ["Kar / Zarar", `${currentProject?.earning || ""} ₺`],
+              ["Toplam Alınan Ödeme", `${currentProject?.totalPayments || ""} ₺`],
+              ["Toplam Maliyet", `${currentProject?.totalCosts || ""} ₺`],
             ],
           },
         },
@@ -152,8 +151,12 @@ const Project = () => {
       },
     };
 
-    pdfMake.createPdf(docDefinition).download(`${currentProject.title}.pdf`);
+    pdfMake.createPdf(docDefinition).download(`${currentProject?.title || "Proje"}-bilgileri.pdf`);
   };
+
+  if (!currentProject) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Frontbase>
