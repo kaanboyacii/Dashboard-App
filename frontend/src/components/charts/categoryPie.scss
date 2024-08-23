@@ -1,0 +1,30 @@
+.category-pie-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
+  
+  .category-pie-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px; 
+    height: auto;
+  
+    h3 {
+      margin-bottom: 10px;
+    }
+  
+    @media (min-width: 768px) {
+      max-width: 300px;
+    }
+  }
+  
