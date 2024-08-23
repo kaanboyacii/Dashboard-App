@@ -9,7 +9,7 @@ import UpdateProject from "../../components/project/UpdateProject";
 import AddCostsCategory from "../../components/project/AddCostsCategory";
 import AddPaymentsCategory from "../../components/project/AddPaymentsCategory";
 import CategoryPie from "../../components/charts/CategoryPie";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { fetchSuccess, fetchFailure } from "../../redux/projectSlice.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,6 @@ const Project = () => {
   const { currentProject } = useSelector((state) => state.project);
   const dispatch = useDispatch();
   const path = useLocation().pathname.split("/")[2];
-  const navigate = useNavigate();
   const [openPayments, setOpenPayments] = useState(false);
   const [openCosts, setOpenCosts] = useState(false);
   const [openCostsCategory, setOpenCostsCategory] = useState(false);
@@ -39,7 +38,7 @@ const Project = () => {
         dispatch(fetchSuccess(res.data.project));
       } catch (err) {
         console.log(err);
-        dispatch(fetchFailure()); // Hata durumunda dispatch et
+        dispatch(fetchFailure());
       }
     };
     fetchData();
@@ -50,7 +49,9 @@ const Project = () => {
       if (currentProject && currentProject._id) {
         try {
           const costsRes = await axios.get(`/costs/${currentProject._id}`);
-          const paymentsRes = await axios.get(`/payments/${currentProject._id}`);
+          const paymentsRes = await axios.get(
+            `/payments/${currentProject._id}`
+          );
           setCosts(costsRes.data);
           setPayments(paymentsRes.data);
         } catch (err) {
@@ -61,7 +62,6 @@ const Project = () => {
 
     fetchCostsAndPayments();
   }, [currentProject]);
-
   const generatePDF = async () => {
     const convertToBase64 = (url) => {
       return new Promise((resolve, reject) => {
@@ -81,6 +81,14 @@ const Project = () => {
 
     const logoBase64 = await convertToBase64(Logo);
 
+    const profitRate = currentProject?.profitRate || 0;
+    const balance = currentProject?.balance || 0;
+    const profitRateDecimal = profitRate / 100;
+
+    const updatedBalance = profitRate
+      ? balance * (1 + profitRateDecimal)
+      : balance;
+
     const docDefinition = {
       content: [
         {
@@ -96,10 +104,13 @@ const Project = () => {
               ["Açıklama", currentProject?.desc || ""],
               ["Durum", currentProject?.status || ""],
               ["İletişim", currentProject?.contact || ""],
-              ["Kar Oranı", `%${currentProject?.profitRate || ""}`],
-              ["Bakiye", `${currentProject?.balance || ""} ₺`],
+              ["Kar Oranı", profitRate ? `%${profitRate}` : "Yok"],
+              ["Bakiye", `${balance} ₺`],
               ["Kar / Zarar", `${currentProject?.earning || ""} ₺`],
-              ["Toplam Alınan Ödeme", `${currentProject?.totalPayments || ""} ₺`],
+              [
+                "Toplam Alınan Ödeme",
+                `${currentProject?.totalPayments || ""} ₺`,
+              ],
               ["Toplam Maliyet", `${currentProject?.totalCosts || ""} ₺`],
             ],
           },
@@ -134,6 +145,18 @@ const Project = () => {
               },
             }
           : { text: "Ödeme kaydı yok.", italics: true },
+        {
+          text: profitRate
+            ? `Güncellenmiş Bakiye (%${profitRate})`
+            : "Toplam Bakiye",
+          style: "footer",
+          margin: [0, 20, 0, 0],
+        },
+        {
+          text: `${updatedBalance.toFixed(2)} ₺`,
+          style: "footer",
+          margin: [0, 0, 0, 20],
+        },
       ],
       styles: {
         header: {
@@ -145,13 +168,20 @@ const Project = () => {
           fontSize: 15,
           bold: true,
         },
+        footer: {
+          fontSize: 12,
+          bold: true,
+          alignment: "right",
+        },
       },
       defaultStyle: {
         font: "Roboto",
       },
     };
 
-    pdfMake.createPdf(docDefinition).download(`${currentProject?.title || "Proje"}-bilgileri.pdf`);
+    pdfMake
+      .createPdf(docDefinition)
+      .download(`${currentProject?.title || "Proje"}-bilgileri.pdf`);
   };
 
   if (!currentProject) {
@@ -183,7 +213,9 @@ const Project = () => {
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Kar Oranı:</span>
-                  <span className="itemValue">%{currentProject.profitRate}</span>
+                  <span className="itemValue">
+                    %{currentProject.profitRate}
+                  </span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Bakiye:</span>
@@ -244,7 +276,7 @@ const Project = () => {
             </div>
           </div>
           <div className="right">
-           <CategoryPie />
+            <CategoryPie />
           </div>
         </div>
         <div className="bottom">
