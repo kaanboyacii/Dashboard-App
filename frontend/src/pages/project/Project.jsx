@@ -13,10 +13,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { fetchSuccess, fetchFailure } from "../../redux/projectSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-import Logo from "./../../images/logo.jpg";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { generatePDF } from "./generatePdf.js";
 
 const Project = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -27,9 +24,12 @@ const Project = () => {
   const [openCostsCategory, setOpenCostsCategory] = useState(false);
   const [openPaymentsCategory, setOpenPaymentsCategory] = useState(false);
   const [openProject, setOpenProject] = useState(false);
-
   const [costs, setCosts] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [costCategories, setCostCategories] = useState([]);
+  const [paymentCategories, setPaymentCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,8 +37,11 @@ const Project = () => {
         const res = await axios.get(`/projects/project/${path}`);
         dispatch(fetchSuccess(res.data.project));
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching project data:", err);
         dispatch(fetchFailure());
+        setError("Veri alınırken bir hata oluştu.");
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -48,141 +51,44 @@ const Project = () => {
     const fetchCostsAndPayments = async () => {
       if (currentProject && currentProject._id) {
         try {
-          const costsRes = await axios.get(`/costs/${currentProject._id}`);
-          const paymentsRes = await axios.get(
-            `/payments/${currentProject._id}`
+          const [costsRes, paymentsRes] = await Promise.all([
+            axios.get(`/costs/${currentProject._id}`),
+            axios.get(`/payments/${currentProject._id}`),
+          ]);
+
+          const [costCategoriesRes, paymentCategoriesRes] = await Promise.all([
+            axios.get(`/cost-category/${currentProject._id}`),
+            axios.get(`/payment-category/${currentProject._id}`),
+          ]);
+
+          setCosts(
+            costsRes.data.map((cost) => ({
+              ...cost,
+              category:
+                costCategoriesRes.data.find((cat) => cat._id === cost.category)
+                  ?.name || "Bilinmiyor",
+            }))
           );
-          setCosts(costsRes.data);
-          setPayments(paymentsRes.data);
+          setPayments(
+            paymentsRes.data.map((payment) => ({
+              ...payment,
+              category:
+                paymentCategoriesRes.data.find(
+                  (cat) => cat._id === payment.category
+                )?.name || "Bilinmiyor",
+            }))
+          );
+          setCostCategories(costCategoriesRes.data);
+          setPaymentCategories(paymentCategoriesRes.data);
         } catch (err) {
-          console.log("Veriler alınırken hata oluştu:", err);
+          console.error("Error fetching costs and payments:", err);
+          setError("Maliyetler ve ödemeler alınırken bir hata oluştu.");
         }
       }
     };
 
     fetchCostsAndPayments();
   }, [currentProject]);
-  const generatePDF = async () => {
-    const convertToBase64 = (url) => {
-      return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-          const reader = new FileReader();
-          reader.onloadend = function () {
-            resolve(reader.result);
-          };
-          reader.readAsDataURL(xhr.response);
-        };
-        xhr.open("GET", url);
-        xhr.responseType = "blob";
-        xhr.send();
-      });
-    };
-
-    const logoBase64 = await convertToBase64(Logo);
-
-    const profitRate = currentProject?.profitRate || 0;
-    const balance = currentProject?.balance || 0;
-    const profitRateDecimal = profitRate / 100;
-
-    const updatedBalance = profitRate
-      ? balance * (1 + profitRateDecimal)
-      : balance;
-
-    const docDefinition = {
-      content: [
-        {
-          image: logoBase64,
-          width: 200,
-          absolutePosition: { x: 10, y: 10 },
-        },
-        { text: "Proje Bilgileri", style: "header", margin: [0, 50, 0, 10] },
-        {
-          table: {
-            body: [
-              ["Başlık", currentProject?.title || ""],
-              ["Açıklama", currentProject?.desc || ""],
-              ["Durum", currentProject?.status || ""],
-              ["İletişim", currentProject?.contact || ""],
-              ["Kar Oranı", profitRate ? `%${profitRate}` : "Yok"],
-              ["Bakiye", `${balance} ₺`],
-              ["Kar / Zarar", `${currentProject?.earning || ""} ₺`],
-              [
-                "Toplam Alınan Ödeme",
-                `${currentProject?.totalPayments || ""} ₺`,
-              ],
-              ["Toplam Maliyet", `${currentProject?.totalCosts || ""} ₺`],
-            ],
-          },
-        },
-        { text: "Maliyetler", style: "subheader", margin: [0, 20, 0, 10] },
-        costs.length > 0
-          ? {
-              table: {
-                body: [
-                  ["Başlık", "Miktar", "Tarih"],
-                  ...costs.map((cost) => [
-                    cost.title,
-                    `${cost.amount} ₺`,
-                    new Date(cost.date).toLocaleDateString(),
-                  ]),
-                ],
-              },
-            }
-          : { text: "Maliyet kaydı yok.", italics: true },
-        { text: "Ödemeler", style: "subheader", margin: [0, 20, 0, 10] },
-        payments.length > 0
-          ? {
-              table: {
-                body: [
-                  ["Başlık", "Miktar", "Tarih"],
-                  ...payments.map((payment) => [
-                    payment.title,
-                    `${payment.amount} ₺`,
-                    new Date(payment.date).toLocaleDateString(),
-                  ]),
-                ],
-              },
-            }
-          : { text: "Ödeme kaydı yok.", italics: true },
-        {
-          text: profitRate
-            ? `Güncellenmiş Bakiye (%${profitRate})`
-            : "Toplam Bakiye",
-          style: "footer",
-          margin: [0, 20, 0, 0],
-        },
-        {
-          text: `${updatedBalance.toFixed(2)} ₺`,
-          style: "footer",
-          margin: [0, 0, 0, 20],
-        },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          marginBottom: 10,
-        },
-        subheader: {
-          fontSize: 15,
-          bold: true,
-        },
-        footer: {
-          fontSize: 12,
-          bold: true,
-          alignment: "right",
-        },
-      },
-      defaultStyle: {
-        font: "Roboto",
-      },
-    };
-
-    pdfMake
-      .createPdf(docDefinition)
-      .download(`${currentProject?.title || "Proje"}-bilgileri.pdf`);
-  };
 
   if (!currentProject) {
     return <div>Loading...</div>;
@@ -248,7 +154,8 @@ const Project = () => {
                   >
                     Yeni ödeme ekle
                   </button>
-                  <button className="pdfButton" onClick={generatePDF}>
+                  <button className="pdfButton"             onClick={() => generatePDF(currentProject, costs, payments)}
+                  >
                     Belge Oluştur
                   </button>{" "}
                   <button
