@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import "./table.scss";
+import { Button } from "@mui/material";
 
 const PaymentTable = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -46,19 +47,43 @@ const PaymentTable = () => {
     fetchCategories();
   }, [currentProject._id]);
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Bu ödemeyi silmek istediğinize emin misiniz?")) {
+      try {
+        await axios.delete(`/payments/${id}`);
+        setPayments((prevPayments) => prevPayments.filter((payment) => payment._id !== id));
+        alert("Ödeme başarıyla silindi.");
+      } catch (err) {
+        console.error("Ödeme silinirken bir hata oluştu:", err);
+        alert("Ödeme silinirken bir hata oluştu.");
+      }
+    }
+  };
+
   const columns = [
-    { field: "title", headerName: "Başlık", width: 120 },
-    { field: "category", headerName: "Kategori", width: 120 },
+    { field: "title", headerName: "Başlık", width: 100 },
+    { field: "category", headerName: "Kategori", width: 100 },
     { field: "amount", headerName: "Miktar", width: 100 },
+    { field: "date", headerName: "Tarih", width: 100 },
     {
-      field: "date",
-      headerName: "Tarih",
-      width: 120,
+      field: "actions",
+      headerName: "İşlemler",
+      width: 100,
+      renderCell: (params) => (
+        <Button
+          onClick={() => handleDelete(params.row._id)}
+          color="error"
+          variant="contained"
+          size="small"
+        >
+          KALDIR
+        </Button>
+      ),
     },
   ];
 
   return (
-    <div className="costTable" style={{ height: 400, width: "100%" }}>
+    <div className="paymentTable" style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={payments}
         columns={columns}
