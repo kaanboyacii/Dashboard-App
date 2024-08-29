@@ -1,4 +1,8 @@
 import Project from "../models/Project.js";
+import Cost from "../models/Cost.js";
+import Payment from "../models/Payment.js";
+import CostCategory from "../models/CostCategory.js";
+import PaymentCategory from "../models/PaymentCategory.js";
 import { createError } from "../utility/error.js";
 
 // Yeni bir proje oluşturma
@@ -90,20 +94,22 @@ export const updateProject = async (req, res, next) => {
   }
 };
 
-// Proje silme
 export const deleteProject = async (req, res, next) => {
   const { id } = req.params;
 
   try {
     const deletedProject = await Project.findByIdAndDelete(id);
-
     if (!deletedProject) {
       return next(createError(404, "Silinecek proje bulunamadı."));
     }
+    await Cost.deleteMany({ projectId: id });
+    await Payment.deleteMany({ projectId: id });
+    await CostCategory.deleteMany({ projectId: id });
+    await PaymentCategory.deleteMany({ projectId: id });
 
     res.status(200).json({
       success: true,
-      message: "Proje başarıyla silindi.",
+      message: "Proje ve ilgili tüm öğeler başarıyla silindi.",
     });
   } catch (error) {
     next(error);
