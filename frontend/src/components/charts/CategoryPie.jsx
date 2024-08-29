@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { PieChart } from "@mui/x-charts/PieChart";
-import './categoryPie.scss'; 
+import "./categoryPie.scss";
 
 const CategoryPie = () => {
   const { currentProject } = useSelector((state) => state.project);
@@ -98,31 +98,35 @@ const CategoryPie = () => {
     "amount"
   );
 
-  const chartOptions = {
-    legend: {
-      display: false, // Legend'i gizle
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => tooltipItem.label + ': ' + tooltipItem.raw,
-        },
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    cutoutPercentage: 70,
-  };
-
   return (
     <div className="category-pie-container">
       <div className="category-pie-chart">
         <h3>Maliyet Kategorileri</h3>
-        <PieChart series={[{ data: costData }]} width={300} height={300} options={chartOptions} />
+        <PieChart
+          series={[
+            {
+              data: costData,
+              highlightScope: { faded: "global", highlighted: "item" },
+              faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+            },
+          ]}
+          width={300}
+          height={300}
+        />
       </div>
       <div className="category-pie-chart">
         <h3>Ödeme Kategorileri</h3>
-        <PieChart series={[{ data: paymentData }]} width={300} height={300} options={chartOptions} />
+        <PieChart
+          series={[
+            {
+              data: paymentData,
+              highlightScope: { faded: "global", highlighted: "item" },
+              faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+            },
+          ]}
+          width={300}
+          height={300}
+        />
       </div>
     </div>
   );
