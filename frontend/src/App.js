@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Navigate } from 'react-router-dom';
 import Projects from "./pages/projects/Projects";
 import Project from "./pages/project/Project";
+import Profile from "./pages/profile/Profile";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme.js';
 
@@ -22,6 +23,7 @@ function App() {
               <>
                 <Route path="/">
                   <Route index element={<Homepage />} />
+                  <Route path="profile" element={<Profile />} />
                   <Route path="projects" element={<Projects />} />
                   <Route path="project">
                     <Route index path=":id" element={<Project />} />
