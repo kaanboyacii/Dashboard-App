@@ -41,7 +41,7 @@ const Profile = () => {
   const handleCancelClick = () => {
     setIsEditing(false);
   };
-console.log(inputs)
+
   return (
     <Frontbase>
       <div className="profile">

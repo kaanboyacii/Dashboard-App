@@ -1,0 +1,141 @@
+@import "../../styles/color.scss";
+.profile {
+  display: flex;
+  width: 100%;
+
+  .profileContainer {
+    flex: 6;
+
+    .top {
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+
+      .left {
+        flex: 2;
+        padding: 20px;
+        border-radius: 10px;
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+        position: relative;
+
+        h1 {
+          font-size: 28px;
+          color: #333;
+          margin-bottom: 20px;
+        }
+
+        .currentUserDetails {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 10px 10px 10px;
+          }
+        }
+
+        .editButton {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 5px;
+          font-size: 18px;
+          color: #fff;
+          background-color: $primary-color;
+          cursor: pointer;
+          border-radius: 0px 0px 0px 10px;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background-color: #fff;
+            color: $primary-color;
+          }
+        }
+
+        .inputField {
+          width: 80%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+
+        .buttonContainer {
+          display: flex;
+          justify-content: flex-start;
+          gap: 10px;
+          margin-top: 50px;
+          margin-right: 20px;
+        }
+
+        .saveButton {
+          padding: 10px 20px;
+          background-color: $primary-color;
+          color: #fff;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background-color: #fff;
+            color: $primary-color;
+          }
+        }
+
+        .cancelButton {
+          padding: 10px 20px;
+          background-color: #1313138b;
+          color: #fff;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background-color: #fff;
+            color: #1313138b;
+          }
+        }
+      }
+
+      .right {
+        flex: 2;
+        padding: 20px;
+        border-radius: 10px;
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      }
+    }
+
+    .bottom {
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+
+      .left,
+      .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #f8f8f8;
+        border-radius: 10px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .end {
+      flex: 1;
+      padding: 20px;
+      background-color: #f8f8f8;
+      border-radius: 10px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+      font-size: 16px;
+      color: lightgray;
+      margin-bottom: 20px;
+    }
+  }
+}
