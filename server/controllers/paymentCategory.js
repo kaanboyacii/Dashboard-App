@@ -6,15 +6,11 @@ import Project from "../models/Project.js";
 export const getAllPaymentCategoriesForProject = async (req, res, next) => {
   const { projectId } = req.params;
   try {
-    // İlk olarak projeyi buluyoruz
     const project = await Project.findById(projectId);
     if (!project) {
       return next(createError(404, "Proje bulunamadı."));
     }
-
-    // Projeye ait ödeme kategorilerini getiriyoruz
     const paymentCategories = await PaymentCategory.find({ _id: { $in: project.paymentsCategory } });
-
     res.status(200).json(paymentCategories);
   } catch (error) {
     next(error);

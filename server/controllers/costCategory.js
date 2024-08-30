@@ -6,15 +6,11 @@ import Project from "../models/Project.js";
 export const getAllCostCategoriesForProject = async (req, res, next) => {
   const { projectId } = req.params;
   try {
-    // İlk olarak projeyi buluyoruz
     const project = await Project.findById(projectId);
     if (!project) {
       return next(createError(404, "Proje bulunamadı."));
     }
-
-    // Projeye ait maliyet kategorilerini getiriyoruz
     const costCategories = await CostCategory.find({ _id: { $in: project.costsCategory } });
-
     res.status(200).json(costCategories);
   } catch (error) {
     next(error);

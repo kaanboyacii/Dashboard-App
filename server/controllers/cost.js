@@ -121,3 +121,23 @@ export const getCosts = async (req, res, next) => {
     next(err);
   }
 };
+
+// Kullanıcı ID'sine göre Cost listesi
+export const getCostsByUserId = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const projects = await Project.find({ userId });
+    if (!projects || projects.length === 0) {
+      return res.status(404).json({ success: false, message: "Kullanıcıya ait projeler bulunamadı." });
+    }
+    const projectIds = projects.map(project => project._id);
+    const costs = await Cost.find({ projectId: { $in: projectIds } });
+    if (!costs || costs.length === 0) {
+      return res.status(404).json({ success: false, message: "Kullanıcıya ait maliyetler bulunamadı." });
+    }
+    res.status(200).json(costs);
+  } catch (err) {
+    next(err);
+  }
+};

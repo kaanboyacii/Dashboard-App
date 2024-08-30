@@ -120,3 +120,23 @@ export const getPayments = async (req, res, next) => {
     next(err);
   }
 };
+
+// Kullanıcı ID'sine göre Payment listesi
+export const getPaymentsByUserId = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const projects = await Project.find({ userId });
+    if (!projects || projects.length === 0) {
+      return res.status(404).json({ success: false, message: "Kullanıcıya ait projeler bulunamadı." });
+    }
+    const projectIds = projects.map(project => project._id);
+    const payments = await Payment.find({ projectId: { $in: projectIds } });
+    if (!payments || payments.length === 0) {
+      return res.status(404).json({ success: false, message: "Kullanıcıya ait payments bulunamadı." });
+    }
+    res.status(200).json(payments);
+  } catch (err) {
+    next(err);
+  }
+};
