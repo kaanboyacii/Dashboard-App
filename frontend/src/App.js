@@ -9,8 +9,7 @@ import Project from "./pages/project/Project";
 import Profile from "./pages/profile/Profile";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme.js';
-import Costs from "./pages/costs/Costs.jsx";
-import Payments from "./pages/payments/Payments.jsx";
+import Movements from "./pages/payments/Movements.jsx";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -26,8 +25,7 @@ function App() {
                 <Route path="/">
                   <Route index element={<Homepage />} />
                   <Route path="profile" element={<Profile />} />
-                  <Route path="costs" element={<Costs />} />
-                  <Route path="payments" element={<Payments />} />
+                  <Route path="movements" element={<Movements />} />
                   <Route path="projects" element={<Projects />} />
                   <Route path="project">
                     <Route index path=":id" element={<Project />} />
