@@ -9,7 +9,7 @@ import Project from "./pages/project/Project";
 import Profile from "./pages/profile/Profile";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme.js';
-import Movements from "./pages/payments/Movements.jsx";
+import Movements from "./pages/movements/Movements";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
