@@ -13,7 +13,9 @@ const Movements = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get(`/payments/user/${currentUser.user._id}`);
+        const response = await axios.get(
+          `/payments/user/${currentUser.user._id}`
+        );
         setPayments(response.data);
       } catch (error) {
         console.error("Ödemeler alınırken bir hata oluştu:", error);
@@ -39,7 +41,15 @@ const Movements = () => {
   const columns = [
     { field: "title", headerName: "Başlık", width: 150 },
     { field: "amount", headerName: "Miktar", width: 150 },
-    { field: "date", headerName: "Tarih", width: 150 },
+    {
+      field: "date",
+      headerName: "Tarih",
+      width: 150,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString("tr-TR");
+      },
+    },
   ];
 
   return (

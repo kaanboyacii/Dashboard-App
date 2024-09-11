@@ -87,7 +87,6 @@ const Frontbase = ({ children }) => {
                 <ListItemText primary="Anasayfa" />
               </ListItem>
             </Link>
-            <p className="title">LİSTE</p>
             <Link to="/projects" style={{ textDecoration: "none" }}>
               <ListItem button>
                 <ListItemIcon>
